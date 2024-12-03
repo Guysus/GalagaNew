@@ -43,7 +43,27 @@ namespace SDLFramework {
     void GameManager::Update() {
         mInputManager->Update();
 
-        mScreenManager->Update();
+        if (mInputManager->KeyDown(SDL_SCANCODE_W)) {
+            
+        }
+        else if (mInputManager->KeyDown(SDL_SCANCODE_S)) {
+            
+        }
+        //To prevent diagonal movement, add an else to the if statement below
+        if (mInputManager->KeyDown(SDL_SCANCODE_A)) {
+            
+        }
+        else if (mInputManager->KeyDown(SDL_SCANCODE_D)) {
+            
+        }
+
+        if (mInputManager->KeyPressed(SDL_SCANCODE_SPACE)) {
+
+        }
+
+        if (mInputManager->KeyReleased(SDL_SCANCODE_SPACE)) {
+            
+        }
     }
 
     void GameManager::LateUpdate() {
@@ -54,7 +74,7 @@ namespace SDLFramework {
     void GameManager::Render() {
         //This is the old frame we need to clear
         mGraphics->ClearBackBuffer();
-        mScreenManager->Render();
+
 
         //Actually showing everthing that we have told to render
         mGraphics->Render();
@@ -74,7 +94,6 @@ namespace SDLFramework {
         mInputManager = InputManager::Instance();
         mAudioManager = AudioManager::Instance();
         mPhysicsManager = PhysicsManager::Instance();
-        mScreenManager = ScreenManager::Instance();
 
         //Create my Physics Layers
         mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Friendly,
@@ -86,7 +105,6 @@ namespace SDLFramework {
             PhysicsManager::CollisionFlags::FriendlyProjectile);
 
         //Creating GameObjects
-
     }
 
     GameManager::~GameManager() {
@@ -110,9 +128,6 @@ namespace SDLFramework {
 
         PhysicsManager::Release();
         mPhysicsManager = nullptr;
-
-        ScreenManager::Release();
-        mScreenManager = nullptr;
 
         //Quit SDl Subsystems
         SDL_Quit();
