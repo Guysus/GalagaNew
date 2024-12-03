@@ -18,4 +18,5 @@ private:
 	static BackgroundStars* sInstance;
 	static const int LAYER_COUNT = 3;
 	StarLayer* mLayers[LAYER_COUNT];
+
 };
