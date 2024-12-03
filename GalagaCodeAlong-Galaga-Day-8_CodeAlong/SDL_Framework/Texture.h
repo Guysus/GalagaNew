@@ -5,10 +5,10 @@
 namespace SDLFramework {
 	class Texture : public GameEntity {
 	public:
-		Texture(std::string filename, bool managed = false);
-		Texture(std::string filename, int x, int y, int width, int height, bool managed = false);
+		Texture(std::string filename, bool managed = true);
+		Texture(std::string filename, int x, int y, int width, int height, bool managed = true);
 		//The below constructor makes a TEXT object instead of using an image
-		Texture(std::string text, std::string fontPath, int size, SDL_Color color, bool managed = false);
+		Texture(std::string text, std::string fontPath, int size, SDL_Color color, bool managed = true);
 		~Texture();
 
 		Vector2 ScaledDimensions();

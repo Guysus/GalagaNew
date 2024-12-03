@@ -13,7 +13,7 @@ namespace SDLFramework {
 
 		bool CheckCollision(PhysEntity* other);
 
-		virtual void Hit(PhysEntity* other) { std::cout << "A collision has happened!" << std::endl; }
+		virtual void Hit(PhysEntity* other) { }
 
 		virtual void Render() override;
 
