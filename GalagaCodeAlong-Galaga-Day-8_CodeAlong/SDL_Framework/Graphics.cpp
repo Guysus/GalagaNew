@@ -77,6 +77,14 @@ namespace SDLFramework {
 		return tex;
 	}
 
+	void Graphics::DrawLine(float startX, float startY, float endX, float endY) {
+		SDL_Color color;
+		SDL_GetRenderDrawColor(mRenderer, &color.r, &color.g, &color.b, &color.a);
+		SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+		SDL_RenderDrawLine(mRenderer, (int)startX, (int)startY, (int)endX, (int)endY);
+		SDL_SetRenderDrawColor(mRenderer, color.r, color.g, color.b, color.a);
+	}
+
 	void Graphics::ClearBackBuffer() {
 		SDL_RenderClear(mRenderer);
 	}

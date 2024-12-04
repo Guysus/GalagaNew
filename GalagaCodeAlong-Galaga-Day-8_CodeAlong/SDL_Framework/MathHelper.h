@@ -5,6 +5,7 @@ namespace SDLFramework {
 	//macros
 #define PI 3.1415926535
 #define DEG_TO_RAD PI / 180.0f
+#define RAD_TO_DEG 180.0f / PI
 
 	struct Vector2 {
 		float x;
@@ -65,6 +66,26 @@ namespace SDLFramework {
 	}
 
 	//VECTORS STOP HERE ---------------------------------->
+
+	struct BezierCurve {
+		Vector2 p0;
+		Vector2 p1;
+		Vector2 p2;
+		Vector2 p3;
+
+		Vector2 CalculatePointAlongCurve(float t) {
+			float tt = t * t;//square
+			float ttt = t * tt;//cube
+			float u = 1.0f - t;
+			float uu = u * u;
+			float uuu = u * uu;
+
+			Vector2 point = (uuu * p0) + (3 * uu * t * p1) + (3 * u * tt * p2) + (ttt * p3);
+			point.x = (float)round(point.x);
+			point.y = (float)round(point.y);
+			return point;
+		}
+	};
 
 	//Performing linear interpolation
 	//Used to create smooth movement in games
