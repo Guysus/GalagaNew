@@ -24,7 +24,6 @@ private:
 	BackgroundStars* mBackgroundStars;
 
 	Player* mPlayer;
-	Enemy* mEnemy;
 
 	int mStage;
 	bool mStageStarted;

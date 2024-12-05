@@ -117,6 +117,9 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Galaga_CPP</Filter>
     </ClCompile>
+    <ClCompile Include="Formation.cpp">
+      <Filter>Galaga_CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MathHelper.h">
@@ -207,6 +210,9 @@
       <Filter>Galaga_H</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
+      <Filter>Galaga_H</Filter>
+    </ClInclude>
+    <ClInclude Include="Formation.h">
       <Filter>Galaga_H</Filter>
     </ClInclude>
   </ItemGroup>
