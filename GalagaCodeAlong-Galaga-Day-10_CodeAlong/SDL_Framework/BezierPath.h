@@ -10,7 +10,7 @@ public:
 	~BezierPath();
 
 	void AddCurve(BezierCurve curve, int samples);
-	void Sample(std::vector<Vector2>* samplePath);
+	void Sample(std::vector<Vector2>* sampledPath);
 
 private:
 	std::vector<BezierCurve> mCurves;

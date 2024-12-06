@@ -8,7 +8,6 @@ void BezierPath::AddCurve(BezierCurve curve, int samples) {
 	mSamples.push_back(samples);
 }
 
-//enemies is going to look at samples to travel
 void BezierPath::Sample(std::vector<Vector2>* sampledPath) {
 	for (int i = 0; i < mCurves.size(); i++) {
 		for (float t = 0.0f; t <= 1.0f; t += (1.0f / mSamples[i])) {

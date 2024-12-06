@@ -9,13 +9,13 @@ using namespace SDLFramework;
 
 class Enemy : public PhysEntity {
 public:
+	//If we add new states here, make sure to update HandleStates in the .cpp
 	enum States { FlyIn, InFormation, Diving, Dead };
 	enum Types { Butterfly, Wasp, Boss };
 
 	static void CreatePaths();
 	static void SetFormation(Formation* formation);
 
-	//Getter
 	States CurrentState();
 	Types Type();
 	int Index();
@@ -62,14 +62,14 @@ protected:
 	virtual Vector2 LocalFormationPosition() = 0;
 
 	virtual void HandleFlyInState();
-	virtual void HandleInformationState();
+	virtual void HandleInFormationState();
 	virtual void HandleDiveState() = 0;
 	virtual void HandleDeadState() = 0;
 
 	void HandleStates();
 
 	virtual void RenderFlyInState();
-	virtual void RenderInformationState();
+	virtual void RenderInFormationState();
 	virtual void RenderDiveState() = 0;
 	virtual void RenderDeadState() = 0;
 

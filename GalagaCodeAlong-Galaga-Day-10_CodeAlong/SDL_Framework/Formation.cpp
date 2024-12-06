@@ -46,7 +46,7 @@ bool Formation::Locked() {
 
 void Formation::Update() {
 	if (!mLocked || mOffsetCounter != 4) {
-		//OUr side to side animation is playing
+		//Our side-to-side animation is playing
 		mOffsetTimer += mTimer->DeltaTime();
 
 		if (mOffsetTimer >= mOffsetDelay) {
@@ -62,7 +62,7 @@ void Formation::Update() {
 		}
 	}
 	else {
-		//Our pullsing animation is playing
+		//Our pulsing animation is playing
 		mSpreadTimer += mTimer->DeltaTime();
 
 		if (mSpreadTimer >= mSpreadDelay) {

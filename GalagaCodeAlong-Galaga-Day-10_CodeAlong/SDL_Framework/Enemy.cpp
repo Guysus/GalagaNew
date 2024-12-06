@@ -9,16 +9,15 @@ void Enemy::CreatePaths() {
 
 	int currentPath = 0;
 	BezierPath* path = new BezierPath();
-	//path->AddCurve({ Vector2(500.0f, 10.0), Vector2(500.0f, 0.0f), Vector2(500.0f, 310.0f), Vector2(500.0f, 300.0f) }, 1);//straight line
+	//path->AddCurve({ Vector2(500.0f, 10.0), Vector2(500.0f, 0.0f),
+	//				Vector2(500.0f, 310.0f), Vector2(500.0f, 300.0f) }, 1);
 
-	//Flight Paths
 	path->AddCurve({
 		Vector2(screenMidPoint + 50.0f, -10.0f),
 		Vector2(screenMidPoint + 50.0f, -20.0f),
 		Vector2(screenMidPoint + 50.0f, 30.0f),
 		Vector2(screenMidPoint + 50.0f, 20.0f) 
 		}, 1);
-		
 
 	path->AddCurve({
 		Vector2(screenMidPoint + 50.0f, 20.0f),
@@ -29,13 +28,13 @@ void Enemy::CreatePaths() {
 
 	path->AddCurve({
 		Vector2(75.0f, 425.0f),
-		Vector2(75.0f, 465.0f),
+		Vector2(75.0f, 650.0f),
 		Vector2(350.0f, 650.0f),
 		Vector2(350.0f, 425.0f)
 		}, 25);
 
-	sPaths.push_back(std::vector<Vector2>());//add blank vector, empty vector
-	path->Sample(&sPaths[currentPath]);//filling with checkpoints
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
 }
 
 void Enemy::SetFormation(Formation* formation) {
@@ -52,10 +51,8 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	Position(sPaths[mCurrentPath][0]);
 
 	mTexture = nullptr;
-	mTexture->Parent(this);
-	mTexture->Position(Vec2_Zero);
 
-	mSpeed = 100.0f;
+	mSpeed = 450.0f;
 }
 
 Enemy::~Enemy() {
@@ -126,15 +123,16 @@ void Enemy::HandleFlyInState() {
 	if (mCurrentWaypoint < sPaths[mCurrentPath].size()) {
 		Vector2 dist = sPaths[mCurrentPath][mCurrentWaypoint] - Position();
 		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
-		Rotate(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+		//TODO: Testing a fix for enemies being beyblades
+		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
 
 		if ((sPaths[mCurrentPath][mCurrentWaypoint] - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
-			//We have made it to next wayoint
+			//We have made it to the next waypoint
 			mCurrentWaypoint++;
 		}
 
 		if (mCurrentWaypoint >= sPaths[mCurrentPath].size()) {
-			//We have reached the end of our fly in path
+			//We have reached the end of our FlyIn path
 			PathComplete();
 		}
 	}
@@ -146,21 +144,21 @@ void Enemy::HandleFlyInState() {
 		if (dist.MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
 			FlyInComplete();
 		}
+
 	}
 }
 
-void Enemy::HandleInformationState() {
+void Enemy::HandleInFormationState() {
 	Position(LocalFormationPosition());
 }
 
 void Enemy::HandleStates() {
-	switch (mCurrentState)
-	{
+	switch (mCurrentState) {
 	case FlyIn:
 		HandleFlyInState();
 		break;
 	case InFormation:
-		HandleInformationState();
+		HandleInFormationState();
 		break;
 	case Diving:
 		HandleDiveState();
@@ -171,20 +169,20 @@ void Enemy::HandleStates() {
 	}
 }
 
-void Enemy::RenderFlyInState() { 
+void Enemy::RenderFlyInState() {
 	mTexture->Render();
 
-	//draw bezier curves
 	for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {
 		Graphics::Instance()->DrawLine(
 			sPaths[mCurrentPath][i].x,
 			sPaths[mCurrentPath][i].y,
 			sPaths[mCurrentPath][i + 1].x,
-			sPaths[mCurrentPath][i + 1].y);
+			sPaths[mCurrentPath][i + 1].y
+		);
 	}
 }
 
-void Enemy::RenderInformationState() {
+void Enemy::RenderInFormationState() {
 	mTexture->Render();
 
 	for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {
@@ -192,18 +190,18 @@ void Enemy::RenderInformationState() {
 			sPaths[mCurrentPath][i].x,
 			sPaths[mCurrentPath][i].y,
 			sPaths[mCurrentPath][i + 1].x,
-			sPaths[mCurrentPath][i + 1].y);
+			sPaths[mCurrentPath][i + 1].y
+		);
 	}
 }
 
 void Enemy::RenderStates() {
-	switch (mCurrentState)
-	{
+	switch (mCurrentState) {
 	case FlyIn:
 		RenderFlyInState();
 		break;
 	case InFormation:
-		RenderInformationState();
+		RenderInFormationState();
 		break;
 	case Diving:
 		RenderDiveState();

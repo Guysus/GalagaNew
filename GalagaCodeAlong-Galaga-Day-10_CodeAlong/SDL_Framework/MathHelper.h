@@ -74,8 +74,8 @@ namespace SDLFramework {
 		Vector2 p3;
 
 		Vector2 CalculatePointAlongCurve(float t) {
-			float tt = t * t;//square
-			float ttt = t * tt;//cube
+			float tt = t * t;
+			float ttt = t * tt;
 			float u = 1.0f - t;
 			float uu = u * u;
 			float uuu = u * uu;

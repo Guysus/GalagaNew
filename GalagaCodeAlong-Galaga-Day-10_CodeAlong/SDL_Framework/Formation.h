@@ -5,7 +5,6 @@
 using namespace SDLFramework;
 
 class Formation : public GameEntity {
-
 public:
 	Formation();
 	~Formation();
@@ -22,7 +21,7 @@ public:
 private:
 	Timer* mTimer;
 
-	//Side to side movement while enemies are still spawning
+	//Side-to-side movement while enemies are still spawning
 	float mOffsetAmount;
 	float mOffsetTimer;
 	float mOffsetDelay;
@@ -30,7 +29,7 @@ private:
 	int mOffsetDirection;
 
 	//Pulsing animation when formation is locked
-	float mSpreadTimer;
+	float  mSpreadTimer;
 	float mSpreadDelay;
 	int mSpreadCounter;
 	int mSpreadDirection;
