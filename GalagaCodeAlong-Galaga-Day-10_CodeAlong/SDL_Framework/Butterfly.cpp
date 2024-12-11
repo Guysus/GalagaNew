@@ -68,6 +68,82 @@ void Butterfly::CreateDivePaths() {
     sDivePaths.push_back(std::vector<Vector2>());
     path->Sample(&sDivePaths[currentPath]);
     delete path;
+
+    currentPath = 2;
+    path = new BezierPath();
+
+    path->AddCurve({
+        Vector2(0.0f, 0.0f),
+        Vector2(0.0f, -60.0f),
+        Vector2(-90.0f, -60.0f),
+        Vector2(-90.0f, 0.0f) }, 15);
+    path->AddCurve({
+        Vector2(-90.0f, 0.0f),
+        Vector2(-90.0f, 60.0f),
+        Vector2(-100.0f, 272.0f),
+        Vector2(-15.0f, 275.0f) }, 15);
+    path->AddCurve({
+        Vector2(-15.0f, 275.0f),
+        Vector2(85.0f, 275.0f),
+        Vector2(85.0f, 125.0f),
+        Vector2(-15.0f, 125.0f) }, 15);
+    path->AddCurve({
+        Vector2(-15.0f, 125.0f),
+        Vector2(-175.0f, 125.0f),
+        Vector2(0.0f, 450.0f),
+        Vector2(125.0f, 450.0f) }, 25);
+    path->AddCurve({
+        Vector2(120.0f, 450.0f),
+        Vector2(160.0f, 450.0f),
+        Vector2(200.0f, 500.0f),
+        Vector2(200.0f, 550.0f) }, 15);
+    path->AddCurve({
+        Vector2(200.0f, 550.0f),
+        Vector2(200.0f, 540.0f),
+        Vector2(200.0f, 810.0f),
+        Vector2(200.0f, 800.0f) }, 15);
+
+    sDivePaths.push_back(std::vector<Vector2>());
+    path->Sample(&sDivePaths[currentPath]);
+    delete path;
+
+    currentPath = 3;
+    path = new BezierPath();
+
+    path->AddCurve({
+        Vector2(0.0f, 0.0f),
+        Vector2(0.0f, -60.0f),
+        Vector2(90.0f, -60.0f),
+        Vector2(90.0f, 0.0f) }, 15);
+    path->AddCurve({
+        Vector2(90.0f, 0.0f),
+        Vector2(90.0f, 60.0f),
+        Vector2(100.0f, 272.0f),
+        Vector2(15.0f, 275.0f) }, 15);
+    path->AddCurve({
+        Vector2(15.0f, 275.0f),
+        Vector2(-85.0f, 275.0f),
+        Vector2(-85.0f, 125.0f),
+        Vector2(15.0f, 125.0f) }, 15);
+    path->AddCurve({
+        Vector2(15.0f, 125.0f),
+        Vector2(175.0f, 125.0f),
+        Vector2(0.0f, 450.0f),
+        Vector2(-125.0f, 450.0f) }, 25);
+    path->AddCurve({
+        Vector2(-120.0f, 450.0f),
+        Vector2(-160.0f, 450.0f),
+        Vector2(-200.0f, 500.0f),
+        Vector2(-200.0f, 550.0f) }, 15);
+    path->AddCurve({
+        Vector2(-200.0f, 550.0f),
+        Vector2(-200.0f, 540.0f),
+        Vector2(-200.0f, 810.0f),
+        Vector2(-200.0f, 800.0f) }, 15);
+
+    sDivePaths.push_back(std::vector<Vector2>());
+    path->Sample(&sDivePaths[currentPath]);
+    delete path;
 }
 
 Vector2 Butterfly::LocalFormationPosition() {
@@ -127,6 +203,11 @@ void Butterfly::RenderDiveState() {
     //debug render of the dive path
     //TODO: Comment out the below for finished product
     int currentPath = mIndex % 2;
+
+    if (mEscort) {
+        currentPath += 2;
+    }
+
     for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {
         Graphics::Instance()->DrawLine(
             mDiveStartPosition.x + sDivePaths[currentPath][i].x,
