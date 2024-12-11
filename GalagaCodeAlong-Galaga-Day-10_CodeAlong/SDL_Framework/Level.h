@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Butterfly.h"
 #include "Wasp.h"
+#include "Boss.h"
 
 using namespace SDLFramework;
 
@@ -29,9 +30,11 @@ private:
 
 	const int MAX_BUTTERFLIES = 16;
 	const int MAX_WASPS = 20;
+	const int MAX_BOSSES = 4;
 
 	int mButterflyCount;
 	int mWaspCount;
+	int mBossCount;
 	std::vector<Enemy*> mEnemies;
 
 	int mStage;

@@ -91,7 +91,7 @@ void Wasp::HandleDiveState() {
 
 	if (mCurrentWaypoint < sDivePaths[currentPath].size()) {
 		//Follow dive path
-		Vector2 waypointPos = mDiveStartPosition + sDivePaths[mCurrentPath][mCurrentWaypoint];
+		Vector2 waypointPos = mDiveStartPosition + sDivePaths[currentPath][mCurrentWaypoint];
 		Vector2 dist = waypointPos - Position();
 
 		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
@@ -117,7 +117,7 @@ void Wasp::HandleDiveState() {
 void Wasp::HandleDeadState() { }
 
 void Wasp::RenderDiveState() {
-	mTexture->Render();
+	mTextures[0]->Render();
 
 	//debug render of the dive path
 	//TODO: Comment out the below for finished product
@@ -149,9 +149,13 @@ void Wasp::RenderDeadState() { }
 Wasp::Wasp(int path, int index, bool challenge, bool diver) :
 	Enemy(path, index, challenge), mDiver(diver) {
 
-	mTexture = new Texture("AnimatedEnemies.png", 0, 40, 52, 40);
-	mTexture->Parent(this);
-	mTexture->Position(Vec2_Zero);
+	mTextures[0] = new Texture("AnimatedEnemies.png", 0, 40, 52, 40);
+	mTextures[1] = new Texture("AnimatedEnemies.png", 52, 40, 52, 40);
+
+	for (auto texture : mTextures) {
+		texture->Parent(this);
+		texture->Position(Vec2_Zero);
+	}
 
 	mType = Enemy::Wasp;
 }

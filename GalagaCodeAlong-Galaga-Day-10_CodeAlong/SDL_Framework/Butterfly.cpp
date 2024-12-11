@@ -1,5 +1,75 @@
 #include "Butterfly.h"
 
+std::vector<std::vector<Vector2>> Butterfly::sDivePaths;
+
+void Butterfly::CreateDivePaths() {
+    int currentPath = 0;
+    BezierPath* path = new BezierPath();
+
+    path->AddCurve({
+        Vector2(0.0f, 0.0f),
+        Vector2(0.0f, -45.0f),
+        Vector2(-60.0f, -45.0f),
+        Vector2(-60.f, 0.0f) }, 15);
+    path->AddCurve({
+        Vector2(-60.0f, 0.0f),
+        Vector2(-60.0f, 80.0f),
+        Vector2(200.0f, 125.0f),
+        Vector2(200.0f, 200.0f) }, 15);
+    path->AddCurve({
+        Vector2(200.0f, 200.0f),
+        Vector2(200.0f, 275.0f),
+        Vector2(175.0f, 250.0f),
+        Vector2(175.0f, 325.0f) }, 15);
+    path->AddCurve({
+        Vector2(175.0f, 325.0f),
+        Vector2(175.0f, 425.0f),
+        Vector2(375.0f, 425.0f),
+        Vector2(375.0f, 525.0f) }, 15);
+    path->AddCurve({
+        Vector2(375.0f, 525.0f),
+        Vector2(375.0f, 575.0f),
+        Vector2(300.0f, 625.0f),
+        Vector2(300.0f, 775.0f) }, 15);
+
+    sDivePaths.push_back(std::vector<Vector2>());
+    path->Sample(&sDivePaths[currentPath]);
+    delete path;
+
+    currentPath = 1;
+    path = new BezierPath();
+
+    path->AddCurve({
+        Vector2(0.0f, 0.0f),
+        Vector2(0.0f, -45.0f),
+        Vector2(60.0f, -45.0f),
+        Vector2(60.f, 0.0f) }, 15);
+    path->AddCurve({
+        Vector2(60.0f, 0.0f),
+        Vector2(60.0f, 80.0f),
+        Vector2(-200.0f, 125.0f),
+        Vector2(-200.0f, 200.0f) }, 15);
+    path->AddCurve({
+        Vector2(-200.0f, 200.0f),
+        Vector2(-200.0f, 275.0f),
+        Vector2(-175.0f, 250.0f),
+        Vector2(-175.0f, 325.0f) }, 15);
+    path->AddCurve({
+        Vector2(-175.0f, 325.0f),
+        Vector2(-175.0f, 425.0f),
+        Vector2(-375.0f, 425.0f),
+        Vector2(-375.0f, 525.0f) }, 15);
+    path->AddCurve({
+        Vector2(-375.0f, 525.0f),
+        Vector2(-375.0f, 575.0f),
+        Vector2(-300.0f, 625.0f),
+        Vector2(-300.0f, 775.0f) }, 15);
+
+    sDivePaths.push_back(std::vector<Vector2>());
+    path->Sample(&sDivePaths[currentPath]);
+    delete path;
+}
+
 Vector2 Butterfly::LocalFormationPosition() {
 	Vector2 retVal;
 
@@ -11,18 +81,86 @@ Vector2 Butterfly::LocalFormationPosition() {
 	return retVal;
 }
 
-void Butterfly::HandleDiveState() { }
+void Butterfly::Dive(int type) {
+    mEscort = type != 0;
+
+    Enemy::Dive();
+}
+
+void Butterfly::HandleDiveState() { 
+    int currentPath = mIndex % 2;
+
+    if (mEscort) {
+        currentPath += 2;
+    }
+
+    if (mCurrentWaypoint < sDivePaths[currentPath].size()) {
+        //Follow dive path
+        Vector2 waypointPos = mDiveStartPosition + sDivePaths[currentPath][mCurrentWaypoint];
+        Vector2 dist = waypointPos - Position();
+
+        Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
+        Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+
+        if ((waypointPos - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25) {
+            mCurrentWaypoint++;
+        }
+    }
+    else {
+        //Return to formation
+        Vector2 dist = WorldFormationPosition() - Position();
+
+        Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
+        Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+
+        if (dist.MagnitudeSqr() < EPSILON * mSpeed / 25) {
+            JoinFormation();
+        }
+    }
+}
+
 void Butterfly::HandleDeadState() { }
 
-void Butterfly::RenderDiveState() { }
+void Butterfly::RenderDiveState() { 
+    mTextures[0]->Render();
+
+    //debug render of the dive path
+    //TODO: Comment out the below for finished product
+    int currentPath = mIndex % 2;
+    for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {
+        Graphics::Instance()->DrawLine(
+            mDiveStartPosition.x + sDivePaths[currentPath][i].x,
+            mDiveStartPosition.y + sDivePaths[currentPath][i].y,
+            mDiveStartPosition.x + sDivePaths[currentPath][i + 1].x,
+            mDiveStartPosition.y + sDivePaths[currentPath][i + 1].y
+        );
+    }
+
+    //debug render of the return path
+    Vector2 finalPos = WorldFormationPosition();
+    //auto currentDivePath = sDivePaths[currentPath];
+    Vector2 pathEndPos = mDiveStartPosition + sDivePaths[currentPath][sDivePaths[currentPath].size() - 1];
+
+    Graphics::Instance()->DrawLine(
+        pathEndPos.x,
+        pathEndPos.y,
+        finalPos.x,
+        finalPos.y
+    );
+}
+
 void Butterfly::RenderDeadState() { }
 
 Butterfly::Butterfly(int path, int index, bool challenge) :
 Enemy(path, index, challenge)
 { 
-	mTexture = new Texture("AnimatedEnemies.png", 0, 0, 52, 40);
-	mTexture->Parent(this);
-	mTexture->Position(Vec2_Zero);
+	mTextures[0] = new Texture("AnimatedEnemies.png", 0, 0, 52, 40);
+	mTextures[1] = new Texture("AnimatedEnemies.png", 52, 0, 52, 40);
+	
+	for (auto texture : mTextures) {
+		texture->Parent(this);
+		texture->Position(Vec2_Zero);
+	}
 
 	mType = Enemy::Butterfly;
 }

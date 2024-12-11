@@ -126,6 +126,9 @@
     <ClCompile Include="Wasp.cpp">
       <Filter>Galaga_CPP</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Galaga_CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MathHelper.h">
@@ -225,6 +228,9 @@
       <Filter>Galaga_H</Filter>
     </ClInclude>
     <ClInclude Include="Wasp.h">
+      <Filter>Galaga_H</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
       <Filter>Galaga_H</Filter>
     </ClInclude>
   </ItemGroup>
