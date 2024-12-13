@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Colliders">
       <UniqueIdentifier>{164405b8-e491-4b2a-9e00-10c915ce64c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TinyXml">
+      <UniqueIdentifier>{a08aba4e-2aca-4db5-acf9-1b1434278d51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL_Framework.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Galaga_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>TinyXml</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,5 +239,13 @@
     <ClInclude Include="Boss.h">
       <Filter>Galaga_H</Filter>
     </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>TinyXml</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Level1.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

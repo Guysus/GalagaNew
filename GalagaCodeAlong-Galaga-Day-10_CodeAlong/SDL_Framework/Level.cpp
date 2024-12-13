@@ -56,6 +56,12 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mButterflyCount = 0;
 	mWaspCount = 0;
 	mBossCount = 0;
+
+	std::string fullPath = SDL_GetBasePath();
+	fullPath.append("Data/Level1.xml");
+	mSpawningPatterns.LoadFile(fullPath.c_str());
+
+	mChallengeStage = mSpawningPatterns.FirstChildElement("Level")->FirstChildElement()->BoolAttribute("value");
 }
 
 Level::~Level() {
