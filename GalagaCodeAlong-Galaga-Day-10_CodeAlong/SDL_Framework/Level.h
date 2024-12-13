@@ -84,6 +84,8 @@ private:
 
 	void StartStage();
 
+	bool EnemyFlyingIn();
+
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
 	void HandleEnemyDiving();
