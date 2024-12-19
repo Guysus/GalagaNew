@@ -76,6 +76,11 @@ private:
 	float mGameOverTimer;
 	float mGameOverLabelOnScreen;
 
+	Butterfly* mDivingButterfly;
+	bool mSkipFirstButterfly;
+	float mButterflyDiveDelay;
+	float mButterflyDiveTimer;
+
 	LevelStates mCurrentState;
 
 	void HandleStartLabels();

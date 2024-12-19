@@ -3,6 +3,12 @@
 <Level>
 	<ChallengingStage value="false" />
 
+	<Spawn path="1" priority="0">
+		<Enemy type="Butterfly" index="0" />
+		<Enemy type="Butterfly" index="1" />
+		<Enemy type="Butterfly" index="2" />
+		<Enemy type="Butterfly" index="3" />
+	</Spawn>
 	<Spawn path="0" priority="0">
 		<Enemy type="Wasp" index="0" />
 		<Enemy type="Wasp" index="1" />

@@ -219,7 +219,7 @@ void Butterfly::RenderDiveState() {
 
     //debug render of the return path
     Vector2 finalPos = WorldFormationPosition();
-    //auto currentDivePath = sDivePaths[currentPath];
+    auto currentDivePath = sDivePaths[currentPath];
     Vector2 pathEndPos = mDiveStartPosition + sDivePaths[currentPath][sDivePaths[currentPath].size() - 1];
 
     Graphics::Instance()->DrawLine(
