@@ -218,7 +218,7 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s</Command>
     <ClInclude Include="Wasp.h" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Level1.xml" />
+    <Xml Include="Data\Level1.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

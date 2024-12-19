@@ -232,9 +232,28 @@ void Level::HandleEnemySpawning() {
 					if (type.compare("Butterfly") == 0) {
 						if (!mChallengeStage) {
 							mFormationButterflies[index] = new Butterfly(path, index, false);
+							mButterflyCount++;
 						}
 						else {//change boolean to true once challenge logic
 							mEnemies.push_back(new Butterfly(path, index, false));
+						}
+					}
+					else if (type.compare("Wasp") == 0) {
+						if (!mChallengeStage) {
+							mFormationWasp[index] = new Wasp(path, index, false, false);
+							mWaspCount++;
+						}
+						else {
+							mEnemies.push_back(new Wasp(path, index, false, false));
+						}
+					}
+					else if (type.compare("Boss") == 0) {
+						if (!mChallengeStage) {
+							mFormationBoss[index] = new Boss(path, index, false);
+							mBossCount++;
+						}
+						else {
+							mEnemies.push_back(new Boss(path, index, false));
 						}
 					}
 
@@ -266,21 +285,21 @@ void Level::HandleEnemySpawning() {
 	}
 
 	//TODO: Remove when finished testing
-	//if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) &&
-	//	mButterflyCount < MAX_BUTTERFLIES) {
-	//	mEnemies.push_back(new Butterfly(0, mButterflyCount++, false));
-	//	//mButterflyCount++;
-	//}
 
-	//if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W) &&
-	//	mWaspCount < MAX_WASPS) {
-	//	mEnemies.push_back(new Wasp(0, mWaspCount++, false, false));
-	//}
+	/*if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) &&
+		mButterflyCount < MAX_BUTTERFLIES) {
+		mEnemies.push_back(new Butterfly(0, mButterflyCount++, false));
+	}
 
-	//if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_F) &&
-	//	mBossCount < MAX_BOSSES) {
-	//	mEnemies.push_back(new Boss(0, mBossCount++, false));
-	//}
+	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W) &&
+		mWaspCount < MAX_WASPS) {
+		mEnemies.push_back(new Wasp(0, mWaspCount++, false, false));
+	}
+
+	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_F) &&
+		mBossCount < MAX_BOSSES) {
+		mEnemies.push_back(new Boss(0, mBossCount++, false));
+	}*/
 }
 
 bool Level::EnemyFlyingIn() {
@@ -296,7 +315,7 @@ bool Level::EnemyFlyingIn() {
 void Level::HandleEnemyFormation() {
 	mFormation->Update();
 
-	if (mButterflyCount == MAX_BUTTERFLIES && 
+	/*if (mButterflyCount == MAX_BUTTERFLIES && 
 		mWaspCount == MAX_WASPS &&
 		mBossCount == MAX_BOSSES) {
 		bool flyIn = false;
@@ -310,6 +329,45 @@ void Level::HandleEnemyFormation() {
 		if (!flyIn) {
 			mFormation->Lock();
 		}
+	}*/
+
+	for (Butterfly* butterfly : mFormationButterflies)
+	{
+		if (butterfly != nullptr)
+		{
+			butterfly->Update();
+		}
+	}
+
+	for (Wasp* wasp : mFormationWasp)
+	{
+		if (wasp != nullptr)
+		{
+			wasp->Update();
+		}
+	}
+
+	for (Boss* boss : mFormationBoss)
+	{
+		if (boss != nullptr)
+		{
+			boss->Update();
+		}
+	}
+
+	if (!mFormation->Locked())
+	{
+		if (mButterflyCount == MAX_BUTTERFLIES && mWaspCount == MAX_WASPS && mBossCount == MAX_BOSSES)
+		{
+			if (!EnemyFlyingIn())
+			{
+				mFormation->Lock();
+			}
+		}
+	}
+	else
+	{
+		HandleEnemyDiving();
 	}
 }
 
@@ -408,7 +466,7 @@ void Level::Render() {
 		}
 	}
 	else {
-		for (auto enemy : mEnemies) {
+		/*for (auto enemy : mEnemies) {
 			enemy->Render();
 		}
 
@@ -419,6 +477,40 @@ void Level::Render() {
 
 			if (mGameOverTimer >= mGameOverLabelOnScreen) {
 				mGameOverLabel->Render();
+			}
+		}*/
+
+		if (!mChallengeStage)
+		{
+			for (Butterfly* butterfly : mFormationButterflies)
+			{
+				if (butterfly != nullptr)
+				{
+					butterfly->Render();
+				}
+			}
+
+			for (Wasp* wasp : mFormationWasp)
+			{
+				if (wasp != nullptr)
+				{
+					wasp->Render();
+				}
+			}
+
+			for (Boss* boss : mFormationBoss)
+			{
+				if (boss != nullptr)
+				{
+					boss->Render();
+				}
+			}
+		}
+		else
+		{
+			for (auto enemy : mEnemies)
+			{
+				enemy->Render();
 			}
 		}
 	}

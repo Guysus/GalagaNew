@@ -228,7 +228,23 @@ void Enemy::HandleFlyInState() {
 }
 
 void Enemy::HandleInFormationState() {
-	Position(LocalFormationPosition());
+	Position(LocalFormationPosition());// may have to remove function
+
+	float rotation = Rotation();
+	if (rotation != 0.0f)
+	{
+		//epsilon for rotation
+		if (rotation > 5.0f)
+		{
+			float rotationSpeed = 200.0f;
+			float rotationDir = (rotation >= 180.0f) ? 1.0f : -1.0f;
+			Rotate(rotationDir * mTimer->DeltaTime() * rotationSpeed);
+		}
+		else
+		{
+			Rotation(0.0f);
+		}
+	}
 }
 
 void Enemy::HandleStates() {
