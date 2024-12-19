@@ -412,6 +412,74 @@ void Level::HandleEnemyDiving() {
 		}
 	}
 
+	//Wasp diving
+	mWaspDiveDelay += mTimer->DeltaTime();
+	if (mWaspDiveTimer >= mWaspDiveDelay)
+	{
+		for (int i = MAX_WASPS - 1; i >= 0; i--)
+		{
+			if (mFormationWasp[i]->CurrentState() == Enemy::InFormation)
+			{
+				if (mDivingWasp == nullptr)
+				{
+					mDivingWasp = mFormationWasp[i];
+					mDivingWasp->Dive();
+				}
+				else if (mDivingWasp2 == nullptr)
+				{
+					mDivingWasp2 = mFormationWasp[i];
+					mDivingWasp2->Dive();
+				}
+				break;
+			}
+		}
+
+		mWaspDiveTimer = 0.0f;
+	}
+
+	if (mDivingWasp != nullptr && mDivingWasp->CurrentState() != Enemy::Diving)
+	{
+		mDivingWasp = nullptr;
+	}
+
+	if (mDivingWasp2 != nullptr && mDivingWasp2->CurrentState() != Enemy::Diving)
+	{
+		mDivingWasp2 = nullptr;
+	}
+
+	//Boss diving
+	if (mDivingBoss == nullptr)
+	{
+		mBossDiveTimer += mTimer->DeltaTime();
+
+		if (mBossDiveTimer >= mBossDiveDelay)
+		{
+			bool skipped = false;
+			for (int i = MAX_BOSSES - 1; i >= 0; i--)
+			{
+				if (mFormationBoss[i]->CurrentState() == Enemy::InFormation)
+				{
+					if (!mSkipFirstBoss || (mSkipFirstBoss && skipped))
+					{
+						mDivingBoss = mFormationBoss[i];
+						mDivingBoss->Dive();
+						mSkipFirstBoss = !mSkipFirstBoss;
+						break;
+					}
+					skipped = true;
+				}
+			}
+			
+			mBossDiveTimer = 0.0f;
+		}
+	}
+	else
+	{
+		if (mDivingBoss->CurrentState() != Enemy::Diving)
+		{
+			mDivingBoss = nullptr;
+		}
+	}
 
 	//if (mFormation->Locked()) {
 	//	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_V)) {

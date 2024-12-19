@@ -81,6 +81,17 @@ private:
 	float mButterflyDiveDelay;
 	float mButterflyDiveTimer;
 
+	Wasp* mDivingWasp;
+	Wasp* mDivingWasp2;
+	float mWaspDiveDelay;
+	float mWaspDiveTimer;
+
+	Boss* mDivingBoss;
+	bool mCaptureDive;
+	bool mSkipFirstBoss;
+	float mBossDiveDelay;
+	float mBossDiveTimer;
+
 	LevelStates mCurrentState;
 
 	void HandleStartLabels();
