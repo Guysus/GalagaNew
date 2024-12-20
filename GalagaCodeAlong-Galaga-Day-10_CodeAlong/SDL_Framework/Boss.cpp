@@ -78,6 +78,42 @@ void Boss::CreateDivePaths() {
     sDivePaths.push_back(std::vector<Vector2>());
     path->Sample(&sDivePaths[currentPath]);
     delete path;
+
+    currentPath = 2;
+    path = new BezierPath();
+
+    path->AddCurve({
+        Vector2(0.0f, 0.0f),
+        Vector2(0.0f, -60.0f),
+        Vector2(-90.0f, -60.0f),
+        Vector2(-90.0f, 0.0f) }, 15);
+    path->AddCurve({
+        Vector2(-90.0f, 0.0f),
+        Vector2(-90.0f, 60.0f),
+        Vector2(100.0f, 340.0f),
+        Vector2(100.0f, 400.0f) }, 15);
+
+    sDivePaths.push_back(std::vector<Vector2>());
+    path->Sample(&sDivePaths[currentPath]);
+    delete path;
+
+    currentPath = 3;
+    path = new BezierPath();
+
+    path->AddCurve({
+        Vector2(0.0f, 0.0f),
+        Vector2(0.0f, -60.0f),
+        Vector2(-90.0f, -60.0f),
+        Vector2(-90.0f, 0.0f) }, 15);
+    path->AddCurve({
+        Vector2(-90.0f, 0.0f),
+        Vector2(-90.0f, 60.0f),
+        Vector2(100.0f, 340.0f),
+        Vector2(100.0f, 400.0f) }, 15);
+     
+    sDivePaths.push_back(std::vector<Vector2>());
+    path->Sample(&sDivePaths[currentPath]);
+    delete path;
 }
 
 Vector2 Boss::LocalFormationPosition() {
@@ -94,6 +130,17 @@ void Boss::Dive(int type) {
     mCaptureDive = type != 0;
 
     Enemy::Dive();
+
+    if (mCaptureDive)
+    {
+        mCapturing = false;
+        mCurrentPath = 2 + Random::Instance()->RandomRange(0, 1);
+        mCaptureBeam->ResetAnimation();
+    }
+    else
+    {
+        mCurrentPath = mIndex % 2;
+    }
 }
 
 void Boss::HandleDiveState() { 
@@ -168,9 +215,18 @@ Boss::Boss(int path, int index, bool challenge) :
 	mTextures[0]->Position(Vec2_Zero);*/
 
 	mType = Enemy::Boss;
+
+    mCurrentPath = 0;
+    mCapturing = false;
+
+    mCaptureBeam = new CaptureBeam();
+    mCaptureBeam->Parent(this);
+    mCaptureBeam->Position(0.0f, -190.0f);
+    mCaptureBeam->Rotation(180.0f);
 }
 
 Boss::~Boss()
 {
-
+    delete mCaptureBeam;
+    mCaptureBeam = false;
 }
