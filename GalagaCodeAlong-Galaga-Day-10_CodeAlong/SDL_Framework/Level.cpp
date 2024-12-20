@@ -465,6 +465,31 @@ void Level::HandleEnemyDiving() {
 						mDivingBoss->Dive();
 						mSkipFirstBoss = !mSkipFirstBoss;
 						break;
+
+						if (mCaptureDive)
+						{
+							mDivingBoss->Dive(1);
+						}
+						else
+						{
+							mDivingBoss->Dive();
+							int index = mDivingBoss->Index();
+							int firstEscortIndex = (index % 2 == 0) ?
+								(index * 2) : (index * 2 - 1);
+							int secondEscortIndex = firstEscortIndex + 4;
+
+							if (mFormationButterflies[firstEscortIndex]->CurrentState() == Enemy::InFormation)
+							{
+								mFormationButterflies[firstEscortIndex]->Dive(1);
+							}
+
+							if (mFormationButterflies[secondEscortIndex]->CurrentState() == Enemy::InFormation)
+							{
+								mFormationButterflies[secondEscortIndex]->Dive(1);
+							}
+						}
+						mCaptureDive = !mCaptureDive;
+						break;
 					}
 					skipped = true;
 				}

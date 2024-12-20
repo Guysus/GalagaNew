@@ -143,16 +143,30 @@ void Boss::Dive(int type) {
     }
 }
 
-void Boss::HandleDiveState() { 
+void Boss::HandleCaptureBeam()
+{
+    mCaptureBeam->Update();
+    if (!mCaptureBeam->IsAnimating())
+    {
+        Translate(Vec2_Up * mSpeed * mTimer->DeltaTime(), World);
+        if (Position().y >= 910.0f)
+        {
+            Position(WorldFormationPosition().x, -20.0f);
+            mCapturing = false;
+        }
+    }
+}
+
+void Boss::HandleDiveState() {
     int currentPath = mIndex % 2;
 
     if (mCaptureDive) {
         currentPath += 2;
     }
 
-    if (mCurrentWaypoint < sDivePaths[currentPath].size()) {
+    if (mCurrentWaypoint < sDivePaths[mCurrentPath].size()) {
         //Follow dive path
-        Vector2 waypointPos = mDiveStartPosition + sDivePaths[currentPath][mCurrentWaypoint];
+        Vector2 waypointPos = mDiveStartPosition + sDivePaths[mCurrentPath][mCurrentWaypoint];
         Vector2 dist = waypointPos - Position();
 
         Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
@@ -161,16 +175,36 @@ void Boss::HandleDiveState() {
         if ((waypointPos - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25) {
             mCurrentWaypoint++;
         }
+
+        if (mCurrentWaypoint == sDivePaths[mCurrentPath].size())
+        {
+            if (mCaptureDive)
+            {
+                mCapturing = true;
+                Rotation(180.0f);
+            }
+            else
+            {
+                Position(Vector2(WorldFormationPosition().x, 20.0f));
+            }
+        }
     }
     else {
-        //Return to formation
-        Vector2 dist = WorldFormationPosition() - Position();
+        if (!mCaptureDive || !mCapturing)
+        {
+            //Return to formation
+            Vector2 dist = WorldFormationPosition() - Position();
 
-        Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
-        Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+            Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
+            Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
 
-        if (dist.MagnitudeSqr() < EPSILON * mSpeed / 25) {
-            JoinFormation();
+            if (dist.MagnitudeSqr() < EPSILON * mSpeed / 25) {
+                JoinFormation();
+            }
+        }
+        else
+        {
+            HandleCaptureBeam();
         }
     }
 }
@@ -193,6 +227,11 @@ void Boss::RenderDiveState() {
             mDiveStartPosition.x + sDivePaths[currentPath][i + 1].x,
             mDiveStartPosition.y + sDivePaths[currentPath][i + 1].y
         );
+    }
+
+    if (mCapturing && mCaptureBeam->IsAnimating())
+    {
+        mCaptureBeam->Render();
     }
 }
 
@@ -228,5 +267,5 @@ Boss::Boss(int path, int index, bool challenge) :
 Boss::~Boss()
 {
     delete mCaptureBeam;
-    mCaptureBeam = false;
+    mCaptureBeam = nullptr;
 }
