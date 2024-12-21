@@ -165,8 +165,8 @@ void Level::HandleStartLabels() {
 void Level::HandleCollisions() {
 	if (!mPlayerHit) {
 		//Quick sanity test
-		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_X)) {
-			mPlayer->WasHit();
+		if (mPlayer->WasHit()) {
+			//mPlayer->WasHit();
 			mSideBar->SetShips(mPlayer->Lives());
 
 			mPlayerHit = true;
@@ -318,6 +318,7 @@ bool Level::EnemyFlyingIn() {
 }
 
 void Level::HandleEnemyFormation() {
+	bool levelCleared = mSpawningFinished;
 	mFormation->Update();
 
 	/*if (mButterflyCount == MAX_BUTTERFLIES && 
@@ -341,6 +342,10 @@ void Level::HandleEnemyFormation() {
 		if (butterfly != nullptr)
 		{
 			butterfly->Update();
+			if (butterfly->CurrentState() != Enemy::Dead || butterfly->InDeathAnimation())
+			{
+				levelCleared = false;
+			}
 		}
 	}
 
@@ -349,6 +354,10 @@ void Level::HandleEnemyFormation() {
 		if (wasp != nullptr)
 		{
 			wasp->Update();
+			if (wasp->CurrentState() != Enemy::Dead || wasp->InDeathAnimation())
+			{
+				levelCleared = false;
+			}
 		}
 	}
 
@@ -357,6 +366,10 @@ void Level::HandleEnemyFormation() {
 		if (boss != nullptr)
 		{
 			boss->Update();
+			if (boss->CurrentState() != Enemy::Dead || boss->InDeathAnimation())
+			{
+				levelCleared = false;
+			}
 		}
 	}
 
@@ -373,6 +386,11 @@ void Level::HandleEnemyFormation() {
 	else
 	{
 		HandleEnemyDiving();
+	}
+
+	if (levelCleared)
+	{
+		mCurrentState == Finished;
 	}
 }
 

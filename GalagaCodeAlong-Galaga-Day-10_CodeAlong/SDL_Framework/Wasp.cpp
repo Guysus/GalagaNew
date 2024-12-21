@@ -66,6 +66,13 @@ void Wasp::CreateDivePaths() {
 	delete path;
 }
 
+void Wasp::Hit(PhysEntity* other)
+{
+	//AudioManager::Instance()->PlaySFX("SFX/WasDestroyed.wav", 0, 4);
+	sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 50 : 100);
+	Enemy::Hit(other);
+}
+
 void Wasp::FlyInComplete() {
 	if (mDiver) {
 		mCurrentState = Dead;
@@ -158,6 +165,8 @@ Wasp::Wasp(int path, int index, bool challenge, bool diver) :
 	}
 
 	mType = Enemy::Wasp;
+
+	AddCollider(new BoxCollider(mTextures[1]->ScaledDimensions()));
 }
 
 Wasp::~Wasp() { }

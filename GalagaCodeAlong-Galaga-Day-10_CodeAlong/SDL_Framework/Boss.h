@@ -8,6 +8,7 @@ public:
 	static void CreateDivePaths();
 
 	void Dive(int type = 0) override;
+	void Hit(PhysEntity* other) override;
 
 	Boss(int path, int index, bool challenge);
 	~Boss();
@@ -18,6 +19,7 @@ private:
 	int mCurrentPath;
 	bool mCapturing;
 	bool mCaptureDive;
+	bool mWasHit;
 
 	CaptureBeam* mCaptureBeam;
 
