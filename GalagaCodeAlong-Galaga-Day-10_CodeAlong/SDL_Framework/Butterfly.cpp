@@ -163,6 +163,13 @@ void Butterfly::Dive(int type) {
     Enemy::Dive();
 }
 
+void Butterfly::Hit(PhysEntity* other)
+{
+    AudioManager::Instance()->PlaySFX("SFX/ButterflyDestroyed.wav", 0, 3);
+    sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 80 : 160);
+    Enemy::Hit(other);
+}
+
 void Butterfly::HandleDiveState() { 
     int currentPath = mIndex % 2;
 

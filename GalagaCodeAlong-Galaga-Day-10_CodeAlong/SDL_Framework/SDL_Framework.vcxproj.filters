@@ -31,6 +31,9 @@
     <Filter Include="TinyXml">
       <UniqueIdentifier>{a08aba4e-2aca-4db5-acf9-1b1434278d51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{b73d1778-6607-4047-866e-8d3f2e0cf395}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL_Framework.cpp">

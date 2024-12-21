@@ -11,12 +11,11 @@ namespace SDLFramework {
 		Collider(ColliderType type);
 		virtual ~Collider();
 
-		virtual void Render();
-
 		virtual Vector2 GetFurthestPoint() = 0;
 
 		ColliderType GetType();
 
+		virtual void Render() override;//added the override
 	protected:
 		ColliderType mType;
 

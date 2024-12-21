@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "PhysicsManager.h"
 
 std::vector<std::vector<Vector2>> Enemy::sPaths;
 Player* Enemy::sPlayer = nullptr;
@@ -116,6 +117,11 @@ void Enemy::SetFormation(Formation* formation) {
 	sFormation = formation;
 }
 
+void Enemy::CurrentPlayer(Player* player)
+{
+	sPlayer = player;
+}
+
 Enemy::Enemy(int path, int index, bool challenge) : 
 	mCurrentPath(path), mIndex(index), mChallengeStage(challenge) {
 	mTimer = Timer::Instance();
@@ -129,6 +135,13 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mTextures[1] = nullptr;
 
 	mSpeed = 450.0f;
+
+	mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Hostile);
+
+	mDeathAnimation = new AnimatedTexture("EnemyExplosion.png", 0, 0, 128, 128, 5, 1.0f, AnimatedTexture::Horizontal);
+	mDeathAnimation->Parent(this);
+	mDeathAnimation->Position(Vec2_Zero);
+	mDeathAnimation->SetWrapMode(AnimatedTexture::Once);
 }
 
 Enemy::~Enemy() {
@@ -139,6 +152,9 @@ Enemy::~Enemy() {
 		delete texture;
 		texture = nullptr;
 	}
+
+	delete mDeathAnimation;
+	mDeathAnimation = nullptr;//not in the book I added it
 }
 
 Enemy::States Enemy::CurrentState() {
@@ -165,6 +181,11 @@ void Enemy::JoinFormation() {
 	mCurrentState = InFormation;
 }
 
+bool Enemy::IgnoreCollisions()
+{
+	return mCurrentState == Dead;
+}
+
 void Enemy::PathComplete() {
 	if (mChallengeStage) {
 		mCurrentState = Dead;
@@ -179,11 +200,26 @@ int Enemy::Index() {
 	return mIndex;
 }
 
+bool Enemy::InDeathAnimation()
+{
+	return mDeathAnimation->IsAnimating();
+}
+
 void Enemy::Dive(int type) {
 	Parent(nullptr);
 	mCurrentState = Diving;
 	mDiveStartPosition = Position();
 	mCurrentWaypoint = 1;
+}
+
+void Enemy::Hit(PhysEntity* other)
+{
+	if (mCurrentState == InFormation)
+	{
+		Parent(nullptr);
+	}
+
+	mCurrentState = Dead;
 }
 
 void Enemy::Update() {
@@ -305,4 +341,6 @@ void Enemy::RenderStates() {
 		RenderDeadState();
 		break;
 	}
+
+	PhysEntity::Render();
 }
