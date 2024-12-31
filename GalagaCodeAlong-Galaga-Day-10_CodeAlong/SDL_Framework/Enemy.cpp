@@ -154,7 +154,7 @@ Enemy::~Enemy() {
 	}
 
 	delete mDeathAnimation;
-	mDeathAnimation = nullptr;//not in the book I added it
+	//mDeathAnimation = nullptr;//not in the book I added it
 }
 
 Enemy::States Enemy::CurrentState() {
