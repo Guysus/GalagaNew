@@ -4,6 +4,7 @@
 #include "AudioManager.h"
 #include "BoxCollider.h"
 #include "Bullet.h"
+#include "Scoreboard.h"
 
 using namespace SDLFramework;
 
