@@ -598,12 +598,12 @@ void Level::Update() {
 		if (mPlayerHit) {
 			HandlePlayerDeath();
 		}
-		else {
-			//TODO: Temporary logic until enemeies implemented
-			if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_N)) {
-				mCurrentState = Finished;
-			}
+
+		if (mSpawningFinished && mButterflyCount <= 0 && mWaspCount <= 0 && mBossCount <= 0) {
+			mCurrentState = Finished;
 		}
+
+		
 	}
 }
 
