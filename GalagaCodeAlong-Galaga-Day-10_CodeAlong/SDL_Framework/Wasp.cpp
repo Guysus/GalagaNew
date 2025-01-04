@@ -68,7 +68,7 @@ void Wasp::CreateDivePaths() {
 
 void Wasp::Hit(PhysEntity* other)
 {
-	//AudioManager::Instance()->PlaySFX("SFX/WasDestroyed.wav", 0, 4);
+	AudioManager::Instance()->PlaySFX("SFX/PlayerExplosion.wav", 0, 3);
 	sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 50 : 100);
 	Enemy::Hit(other);
 }

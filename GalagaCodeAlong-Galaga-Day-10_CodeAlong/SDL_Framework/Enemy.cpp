@@ -219,7 +219,7 @@ void Enemy::Dive(int type) {
 
 void Enemy::Hit(PhysEntity* other)
 {
-	if (mCurrentState == InFormation)
+	if (mCurrentState == InFormation || mCurrentState == Diving || mCurrentPath == FlyIn)
 	{
 		Parent(nullptr);
 	}

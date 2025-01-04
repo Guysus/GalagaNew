@@ -147,7 +147,7 @@ void Boss::Hit(PhysEntity* other)
 {
     if (mWasHit)
     {
-        //AudioManager::Instance()->PlaySFX("SFX/BossDestroyed.wav", 0, 2);
+        AudioManager::Instance()->PlaySFX("SFX/PlayerExplosion.wav", 0, 2);
         sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 150 : mCaptureDive ? 400 : 800);
         Enemy::Hit(other);
     }
