@@ -165,7 +165,10 @@ void Butterfly::Dive(int type) {
 
 void Butterfly::Hit(PhysEntity* other)
 {
-    AudioManager::Instance()->PlaySFX("SFX/PlayerExplosion.wav", 0, 3);
+    if (other->GetId() == 1)
+    {
+        AudioManager::Instance()->PlaySFX("SFX/PlayerExplosion.wav", 0, 3);
+    }
     sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 80 : 160);
     Enemy::Hit(other);
 }
