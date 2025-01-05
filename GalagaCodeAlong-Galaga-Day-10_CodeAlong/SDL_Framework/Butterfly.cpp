@@ -171,7 +171,7 @@ void Butterfly::Hit(PhysEntity* other)
     }
     else if (other->GetId() == 2)
     {
-        sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 80 : 160);
+         sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 80 : 160);
         Enemy::Hit(other);
     }
 }
