@@ -94,6 +94,17 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mSkipFirstButterfly = false;
 	mButterflyDiveDelay = 1.0f;
 	mButterflyDiveTimer = 0.0f;
+
+	mDivingWasp = nullptr;
+	mDivingWasp2 = nullptr;
+	mWaspDiveDelay = 1.0f;
+	mWaspDiveTimer = 0.0f;
+
+	mDivingBoss = nullptr;
+	mCaptureDive = true;
+	mSkipFirstBoss = true;
+	mBossDiveDelay = 5.0f;
+	mBossDiveTimer = 0.0f;
 }
 
 Level::~Level() {

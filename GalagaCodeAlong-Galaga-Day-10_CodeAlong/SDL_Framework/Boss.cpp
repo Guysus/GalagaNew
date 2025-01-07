@@ -169,7 +169,7 @@ void Boss::HandleCaptureBeam()
     mCaptureBeam->Update();
     if (!mCaptureBeam->IsAnimating())
     {
-        Translate(Vec2_Up * mSpeed * mTimer->DeltaTime(), World);
+        Translate(Vec2_Up * mSpeed * mTimer->DeltaTime(), World);//might get rid of World
         if (Position().y >= 910.0f)
         {
             Position(WorldFormationPosition().x, -20.0f);
@@ -179,11 +179,11 @@ void Boss::HandleCaptureBeam()
 }
 
 void Boss::HandleDiveState() {
-    int currentPath = mIndex % 2;
+    /*int currentPath = mIndex % 2;
 
     if (mCaptureDive) {
         currentPath += 2;
-    }
+    }*/
 
     if (mCurrentWaypoint < sDivePaths[mCurrentPath].size()) {
         //Follow dive path
@@ -276,6 +276,7 @@ Boss::Boss(int path, int index, bool challenge) :
 
 	mType = Enemy::Boss;
 
+    mCaptureDive = false;
     mCurrentPath = 0;
     mCapturing = false;
 

@@ -3,6 +3,8 @@
 #include "CaptureBeam.h"
 #include "Random.h"
 
+using namespace SDLFramework;
+
 class Boss : public Enemy {
 public:
 	static void CreateDivePaths();

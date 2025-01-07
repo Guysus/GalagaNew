@@ -22,9 +22,9 @@ void CaptureBeam::RunAnimation()
 			int temp = (int)(mCaptureTimer * 3.5f);
 			mSourceRect.h = (int)(temp / 7.0f * mHeight);
 		}
-		else if (mCaptureTimer > 4.0f)
+		else if (mCaptureTimer > mTotalCaptureTime - 2.0f)
 		{
-			float temp = (int)((mTotalCaptureTime - mCaptureTimer) * 3.5f);
+			int temp = (int)((mTotalCaptureTime - mCaptureTimer) * 3.5f);
 			mSourceRect.h = (int)(temp / 7.0f * mHeight);
 		}
 		else
@@ -34,7 +34,7 @@ void CaptureBeam::RunAnimation()
 	}
 }
 
-CaptureBeam::CaptureBeam() : AnimatedTexture("SpriteSheet.png", 0, 0, 184, 320, 3, 0.5f, Horizontal)
+CaptureBeam::CaptureBeam() : AnimatedTexture("CaptureBeam.png", 0, 0, 184, 320, 3, 0.5f, Horizontal)
 {
 	mTotalCaptureTime = 6.0f;
 	ResetAnimation();
@@ -53,8 +53,8 @@ void CaptureBeam::Render()
 {
 	Vector2 pos = Position(World);
 	Vector2 scale = Scale(World);
-	mDestinationRect.x = (int)(pos.x = mWidth * scale.x * 0.5f);
-	mDestinationRect.y = (int)(pos.y = mHeight * scale.y * 0.5f);
+	mDestinationRect.x = (int)(pos.x - mWidth * scale.x * 0.5f);
+	mDestinationRect.y = (int)(pos.y - mHeight * scale.y * 0.5f);
 	mDestinationRect.w = (int)(mWidth * scale.x);
 	mDestinationRect.h = mSourceRect.h;
 
