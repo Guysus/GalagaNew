@@ -390,7 +390,7 @@ void Level::HandleEnemyFormation() {
 
 	if (levelCleared)
 	{
-		mCurrentState == Finished;
+		mCurrentState = Finished;
 	}
 }
 

@@ -37,7 +37,7 @@ private:
 	int mButterflyCount;
 	int mWaspCount;
 	int mBossCount;
-	std::vector<Enemy*> mEnemies;//Holds all the debug keys
+	std::vector<Enemy*> mEnemies;
 	
 	Butterfly* mFormationButterflies[MAX_BUTTERFLIES];
 	Wasp* mFormationWasp[MAX_WASPS];

@@ -156,7 +156,7 @@ Enemy::~Enemy() {
 	}
 
 	delete mDeathAnimation;
-	//mDeathAnimation = nullptr;//not in the book I added it
+	mDeathAnimation = nullptr;
 
 	delete sPlayer;
 	sPlayer = nullptr;
@@ -269,7 +269,7 @@ void Enemy::HandleFlyInState() {
 }
 
 void Enemy::HandleInFormationState() {
-	Position(LocalFormationPosition());// may have to remove function
+	Position(LocalFormationPosition());
 
 	float rotation = Rotation();
 	if (rotation != 0.0f)
@@ -343,6 +343,7 @@ void Enemy::RenderStates() {
 		RenderDiveState();
 		break;
 	case Dead:
+		//TODO: Render death texture in dead state
 		RenderDeadState();
 		break;
 	}

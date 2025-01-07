@@ -134,6 +134,7 @@ void Player::Update() {
 		if (Active()) {
 			HandleMovement();
 			HandleFiring();
+			//AddScore(mScore);
 		}
 	}
 
