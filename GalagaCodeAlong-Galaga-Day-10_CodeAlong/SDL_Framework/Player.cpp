@@ -109,11 +109,8 @@ int Player::Lives() {
 }
 
 //TODO: Temporary functionality. Hit() will be what runs this functionality
-void Player::WasHit() {
-	mLives -= 1;
-	mAnimating = true;
-	mDeathAnimation->ResetAnimation();
-	mAudio->PlaySFX("SFX/PlayerExplosion.wav");
+bool Player::WasHit() {
+	return mWasHit;
 }
 
 bool Player::IgnoreCollisions() {
@@ -124,8 +121,8 @@ void Player::Hit(PhysEntity* other) {
 	mLives -= 1;
 	mAnimating = true;
 	mDeathAnimation->ResetAnimation();
+	mAudio->PlaySFX("SFX/PlayerExplosion.wav");
 	mWasHit = true;
-	//TODO: ADD AUDIO TO DEATH!
 }
 
 void Player::Update() {
@@ -137,6 +134,7 @@ void Player::Update() {
 		if (Active()) {
 			HandleMovement();
 			HandleFiring();
+			//AddScore(mScore);
 		}
 	}
 

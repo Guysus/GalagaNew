@@ -37,7 +37,7 @@ private:
 	int mButterflyCount;
 	int mWaspCount;
 	int mBossCount;
-	std::vector<Enemy*> mEnemies;//Holds all the debug keys
+	std::vector<Enemy*> mEnemies;
 	
 	Butterfly* mFormationButterflies[MAX_BUTTERFLIES];
 	Wasp* mFormationWasp[MAX_WASPS];
@@ -75,6 +75,22 @@ private:
 	float mGameOverDelay;
 	float mGameOverTimer;
 	float mGameOverLabelOnScreen;
+
+	Butterfly* mDivingButterfly;
+	bool mSkipFirstButterfly;
+	float mButterflyDiveDelay;
+	float mButterflyDiveTimer;
+
+	Wasp* mDivingWasp;
+	Wasp* mDivingWasp2;
+	float mWaspDiveDelay;
+	float mWaspDiveTimer;
+
+	Boss* mDivingBoss;
+	bool mCaptureDive;
+	bool mSkipFirstBoss;
+	float mBossDiveDelay;
+	float mBossDiveTimer;
 
 	LevelStates mCurrentState;
 

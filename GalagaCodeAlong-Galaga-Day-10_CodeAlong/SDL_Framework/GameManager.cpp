@@ -81,9 +81,15 @@ namespace SDLFramework {
             PhysicsManager::CollisionFlags::Hostile |
             PhysicsManager::CollisionFlags::HostileProjectile);
 
+        mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::FriendlyProjectile,
+            PhysicsManager::CollisionFlags::Hostile);
+
         mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Hostile,
             PhysicsManager::CollisionFlags::Friendly |
             PhysicsManager::CollisionFlags::FriendlyProjectile);
+
+        mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::HostileProjectile,
+            PhysicsManager::CollisionFlags::Friendly);
 
         //Creating GameObjects
 

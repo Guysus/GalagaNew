@@ -4,6 +4,7 @@
 class Wasp : public Enemy {
 public:
 	static void CreateDivePaths();
+	void Hit(PhysEntity* other) override;
 
 	Wasp(int path, int index, bool challenge, bool diver);
 	~Wasp();

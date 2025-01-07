@@ -6,6 +6,7 @@ public:
 	static void CreateDivePaths();
 
 	void Dive(int type = 0) override;
+	void Hit(PhysEntity* other) override;
 
 	Butterfly(int path, int index, bool challenge);
 	~Butterfly();

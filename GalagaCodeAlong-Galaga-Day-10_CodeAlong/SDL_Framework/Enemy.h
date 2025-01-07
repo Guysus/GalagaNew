@@ -15,15 +15,18 @@ public:
 
 	static void CreatePaths();
 	static void SetFormation(Formation* formation);
+	static void CurrentPlayer(Player* player);
 
 	States CurrentState();
 	Types Type();
 	int Index();
+	bool InDeathAnimation();
 
 	Enemy(int path, int index, bool challenge);
 	virtual ~Enemy();
 
 	virtual void Dive(int type = 0);
+	virtual void Hit(PhysEntity* other) override;
 
 	void Update() override;
 	void Render() override;
@@ -36,6 +39,7 @@ protected:
 	Timer* mTimer;
 
 	Texture* mTextures[2];
+	AnimatedTexture* mDeathAnimation;
 
 	States mCurrentState;
 	Types mType;
@@ -52,6 +56,8 @@ protected:
 	const float EPSILON = 50.0f;
 
 	float mSpeed;
+
+	bool IgnoreCollisions() override;
 
 	virtual void PathComplete();
 	virtual void FlyInComplete();
