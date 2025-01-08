@@ -108,13 +108,12 @@ int Player::Lives() {
 	return mLives;
 }
 
-//TODO: Temporary functionality. Hit() will be what runs this functionality
 bool Player::WasHit() {
 	return mWasHit;
 }
 
 bool Player::IgnoreCollisions() {
-	return !mVisible || mAnimating;
+	return !mVisible || mAnimating || !Active();
 }
 
 void Player::Hit(PhysEntity* other) {

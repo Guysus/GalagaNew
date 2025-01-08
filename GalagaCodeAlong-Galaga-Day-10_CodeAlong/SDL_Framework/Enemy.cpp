@@ -142,8 +142,6 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mDeathAnimation->Parent(this);
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(AnimatedTexture::Once);
-
-	sPlayer = new Player();
 }
 
 Enemy::~Enemy() {

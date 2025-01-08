@@ -105,6 +105,8 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mSkipFirstBoss = true;
 	mBossDiveDelay = 5.0f;
 	mBossDiveTimer = 0.0f;
+
+	Enemy::CurrentPlayer(mPlayer);
 }
 
 Level::~Level() {
@@ -176,8 +178,8 @@ void Level::HandleStartLabels() {
 void Level::HandleCollisions() {
 	if (!mPlayerHit) {
 		//Quick sanity test
-		if (mPlayer->WasHit()) {
-			//mPlayer->WasHit();
+		if (mPlayer->WasHit())
+		{
 			mSideBar->SetShips(mPlayer->Lives());
 
 			mPlayerHit = true;
@@ -185,6 +187,7 @@ void Level::HandleCollisions() {
 			mPlayer->Active(false);
 			mBackgroundStars->Scroll(false);
 		}
+		
 	}
 }
 
@@ -491,10 +494,7 @@ void Level::HandleEnemyDiving() {
 					if (!mSkipFirstBoss || (mSkipFirstBoss && skipped))
 					{
 						mDivingBoss = mFormationBoss[i];
-						mDivingBoss->Dive();
-						mSkipFirstBoss = !mSkipFirstBoss;
-						break;
-
+					
 						if (mCaptureDive)
 						{
 							mDivingBoss->Dive(1);
@@ -517,6 +517,7 @@ void Level::HandleEnemyDiving() {
 								mFormationButterflies[secondEscortIndex]->Dive(1);
 							}
 						}
+						mSkipFirstBoss = !mSkipFirstBoss;
 						mCaptureDive = !mCaptureDive;
 						break;
 					}
@@ -607,12 +608,16 @@ void Level::Update() {
 		HandleCollisions();
 
 		if (mPlayerHit) {
-			HandlePlayerDeath();
+   			HandlePlayerDeath();
+		}
+		else
+		{
+			if (mSpawningFinished && mButterflyCount <= 0 && mWaspCount <= 0 && mBossCount <= 0) {
+				mCurrentState = Finished;
+			}
 		}
 
-		if (mSpawningFinished && mButterflyCount <= 0 && mWaspCount <= 0 && mBossCount <= 0) {
-			mCurrentState = Finished;
-		}
+		
 
 		
 	}

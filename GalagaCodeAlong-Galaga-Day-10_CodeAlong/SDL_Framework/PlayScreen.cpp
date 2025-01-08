@@ -41,8 +41,8 @@ PlayScreen::~PlayScreen() {
 	delete mLevel;
 	mLevel = nullptr;
 
-	delete mPlayer;
-	mPlayer = nullptr;
+	/*delete mPlayer;
+	mPlayer = nullptr;*/
 }
 
 void PlayScreen::StartNewGame() {

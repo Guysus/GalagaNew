@@ -147,20 +147,19 @@ void Boss::Hit(PhysEntity* other)
 {
     if (mWasHit)
     {
-        AudioManager::Instance()->PlaySFX("SFX/PlayerExplosion.wav", 0, 2);
+        AudioManager::Instance()->PlaySFX("SFX/BossDestroyed.wav", 0, 2);
         sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 150 : mCaptureDive ? 400 : 800);
         Enemy::Hit(other);
     }
     else
     {
-        //TODO:: fix SDL_Rect
         mWasHit = true;
-        /*SDL_Rect temp = (0, 64, 60, 64);
+        SDL_Rect temp = { 0, 64, 60, 64 };
         mTextures[0]->SetSourceRect(&temp);
         temp.x = 66;
         temp.y = 68;
-        mTextures[1]->SetSourceRect(&temp);*/
-        //AudioManager::Instance()->PlaySFX("SFX/BossInjured.wav", 0, 2);
+        mTextures[1]->SetSourceRect(&temp);
+        AudioManager::Instance()->PlaySFX("SFX/BossInjured.wav", 0, 2);
     }
 }
 
