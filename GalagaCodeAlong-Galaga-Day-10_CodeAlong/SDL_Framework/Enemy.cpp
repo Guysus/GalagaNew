@@ -155,9 +155,6 @@ Enemy::~Enemy() {
 
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
-
-	delete sPlayer;
-	sPlayer = nullptr;
 }
 
 Enemy::States Enemy::CurrentState() {

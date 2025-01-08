@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Level2>
+	<ChallengingStage value="false" />
+
+	<Spawn path="1" priority="0">
+		
+	</Spawn>
+</Level2>

@@ -122,6 +122,8 @@ void Player::Hit(PhysEntity* other) {
 	mDeathAnimation->ResetAnimation();
 	mAudio->PlaySFX("SFX/PlayerExplosion.wav");
 	mWasHit = true;
+	
+
 }
 
 void Player::Update() {
@@ -139,7 +141,6 @@ void Player::Update() {
 		if (Active()) {
 			HandleMovement();
 			HandleFiring();
-			//AddScore(mScore);
 		}
 	}
 

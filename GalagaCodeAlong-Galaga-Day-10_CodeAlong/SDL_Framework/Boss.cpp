@@ -1,4 +1,5 @@
 #include "Boss.h"
+#include "PhysicsManager.h"
 
 std::vector<std::vector<Vector2>> Boss::sDivePaths;
 
@@ -287,6 +288,10 @@ Boss::Boss(int path, int index, bool challenge) :
     AddCollider(new BoxCollider(mTextures[1]->ScaledDimensions()));
     //AddCollider(new BoxCollider(mCaptureBeam->ScaledDimensions()));
     AddCollider(new BoxCollider(mCaptureBeam->Position()));
+
+    mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::CaptureBeam);
+
+
     mWasHit = false;
 }
 
