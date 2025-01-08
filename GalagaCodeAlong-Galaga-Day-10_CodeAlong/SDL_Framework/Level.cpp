@@ -187,7 +187,6 @@ void Level::HandleCollisions() {
 			mPlayer->Active(false);
 			mBackgroundStars->Scroll(false);
 		}
-		
 	}
 }
 
@@ -299,26 +298,8 @@ void Level::HandleEnemySpawning() {
 				mCurrentFlyInIdex++;
 			}
 		}
-
 		mSpawnTimer = 0;
 	}
-
-	//TODO: Remove when finished testing
-
-	/*if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) &&
-		mButterflyCount < MAX_BUTTERFLIES) {
-		mEnemies.push_back(new Butterfly(0, mButterflyCount++, false));
-	}
-
-	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W) &&
-		mWaspCount < MAX_WASPS) {
-		mEnemies.push_back(new Wasp(0, mWaspCount++, false, false));
-	}
-
-	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_F) &&
-		mBossCount < MAX_BOSSES) {
-		mEnemies.push_back(new Boss(0, mBossCount++, false));
-	}*/
 }
 
 bool Level::EnemyFlyingIn() {
@@ -328,6 +309,17 @@ bool Level::EnemyFlyingIn() {
 		}
 	}
 
+	for (Wasp* wasp : mFormationWasp) {
+		if (wasp != nullptr && wasp->CurrentState() == Enemy::FlyIn) {
+			return true;
+		}
+	}
+
+	for (Boss* boss : mFormationBoss) {
+		if (boss != nullptr && boss->CurrentState() == Enemy::FlyIn) {
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -608,18 +600,12 @@ void Level::Update() {
 		HandleCollisions();
 
 		if (mPlayerHit) {
-   			HandlePlayerDeath();
-		}
-		else
-		{
-			if (mSpawningFinished && mButterflyCount <= 0 && mWaspCount <= 0 && mBossCount <= 0) {
-				mCurrentState = Finished;
-			}
+      			HandlePlayerDeath();
 		}
 
-		
-
-		
+		/*if (mSpawningFinished && mButterflyCount == 0 && mWaspCount == 0 && mBossCount == 0) {
+			mCurrentState = Finished;
+		}*/
 	}
 }
 

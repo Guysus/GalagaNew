@@ -168,7 +168,7 @@ void Boss::HandleCaptureBeam()
     mCaptureBeam->Update();
     if (!mCaptureBeam->IsAnimating())
     {
-        Translate(Vec2_Up * mSpeed * mTimer->DeltaTime(), World);//might get rid of World
+        Translate(Vec2_Up * mSpeed * mTimer->DeltaTime(), World);
         if (Position().y >= 910.0f)
         {
             Position(WorldFormationPosition().x, -20.0f);
@@ -283,8 +283,10 @@ Boss::Boss(int path, int index, bool challenge) :
     mCaptureBeam->Parent(this);
     mCaptureBeam->Position(0.0f, -190.0f);
     mCaptureBeam->Rotation(180.0f);
-
+    
     AddCollider(new BoxCollider(mTextures[1]->ScaledDimensions()));
+    //AddCollider(new BoxCollider(mCaptureBeam->ScaledDimensions()));
+    AddCollider(new BoxCollider(mCaptureBeam->Position()));
     mWasHit = false;
 }
 

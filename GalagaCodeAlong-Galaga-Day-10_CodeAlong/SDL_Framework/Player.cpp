@@ -126,6 +126,12 @@ void Player::Hit(PhysEntity* other) {
 
 void Player::Update() {
 	if (mAnimating) {
+
+		if (mWasHit)
+		{
+			mWasHit = false;
+		}
+
 		mDeathAnimation->Update();
 		mAnimating = mDeathAnimation->IsAnimating();
 	}

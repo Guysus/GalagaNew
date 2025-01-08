@@ -11,6 +11,7 @@ namespace SDLFramework {
 			FriendlyProjectile,
 			Hostile,
 			HostileProjectile,
+			CaptureBeam,
 			MaxLayers
 		};
 

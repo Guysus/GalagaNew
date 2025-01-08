@@ -286,6 +286,14 @@ void Enemy::HandleInFormationState() {
 	}
 }
 
+void Enemy::HandleDeadState()
+{
+	if (mDeathAnimation->IsAnimating())
+	{
+		mDeathAnimation->Update();
+	}
+}
+
 void Enemy::HandleStates() {
 	switch (mCurrentState) {
 	case FlyIn:
@@ -326,6 +334,14 @@ void Enemy::RenderInFormationState() {
 			sPaths[mCurrentPath][i + 1].x,
 			sPaths[mCurrentPath][i + 1].y
 		);
+	}
+}
+
+void Enemy::RenderDeadState()
+{
+	if (mDeathAnimation->IsAnimating())
+	{
+		mDeathAnimation->Render();
 	}
 }
 

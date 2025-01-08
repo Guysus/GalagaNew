@@ -91,6 +91,9 @@ namespace SDLFramework {
         mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::HostileProjectile,
             PhysicsManager::CollisionFlags::Friendly);
 
+        mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::CaptureBeam,
+            PhysicsManager::CollisionFlags::Friendly);
+
         //Creating GameObjects
 
     }
