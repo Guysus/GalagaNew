@@ -21,7 +21,8 @@ namespace SDLFramework {
 			FriendlyProjectile = 0x02,
 			//Some other friendly layer could go here
 			Hostile = 0x04,
-			HostileProjectile = 0x08
+			HostileProjectile = 0x08,
+			CaptureBeam = 0x16
 		};
 
 		static PhysicsManager* Instance();

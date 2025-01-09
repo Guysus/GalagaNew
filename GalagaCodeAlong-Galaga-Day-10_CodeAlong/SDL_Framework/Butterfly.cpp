@@ -168,6 +168,7 @@ void Butterfly::Hit(PhysEntity* other)
     AudioManager::Instance()->PlaySFX("SFX/ButterflyDestroyed.wav", 0, 3);
     sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 80 : 160);
     Enemy::Hit(other);
+    mWasHit = true;
 }
 
 void Butterfly::HandleDiveState() { 
@@ -253,6 +254,13 @@ Enemy(path, index, challenge)
 	mType = Enemy::Butterfly;
 
     AddCollider(new BoxCollider(mTextures[1]->ScaledDimensions()));
+
+    mWasHit = false;
 }
 
 Butterfly::~Butterfly() { }
+
+bool Butterfly::ButterflyHit()
+{
+    return mWasHit;
+}

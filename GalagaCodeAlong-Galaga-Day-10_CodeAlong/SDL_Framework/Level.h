@@ -67,6 +67,9 @@ private:
 	float mLabelTimer;
 
 	bool mPlayerHit;
+	bool mButterflyHit;
+	bool mWaspHit;
+	bool mBossHit;
 	float mRespawnDelay;
 	float mRespawnTimer;
 	float mRespawnLabelOnScreen;
@@ -102,6 +105,7 @@ private:
 
 	bool EnemyFlyingIn();
 
+	void HandleEnemyDeath();
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
 	void HandleEnemyDiving();

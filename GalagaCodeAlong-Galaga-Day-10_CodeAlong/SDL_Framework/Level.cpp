@@ -36,6 +36,9 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 
 	mPlayer = player;
 	mPlayerHit = false;
+	mButterflyHit = false;
+	mWaspHit = false;
+	mBossHit = false;
 	mRespawnDelay = 3.0f;
 	mRespawnLabelOnScreen = 2.0f;
 
@@ -222,11 +225,29 @@ void Level::HandlePlayerDeath() {
 	}
 }
 
+void Level::HandleEnemyDeath()
+{
+	for (auto butterfly : mFormationButterflies)
+	{
+		if (butterfly->CurrentState() == Enemy::FlyIn ||
+			butterfly->CurrentState() == Enemy::InFormation ||
+			butterfly->CurrentState() == Enemy::Diving)
+		{
+			if (butterfly->ButterflyHit())
+			{
+				mButterflyHit = true;
+				mButterflyCount--;
+			}
+		}
+	}
+}
+
 void Level::HandleEnemySpawning() {
 	mSpawnTimer += mTimer->DeltaTime();
 
 	if (mSpawnTimer >= mSpawnDelay) {
 		XMLElement* element = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
+		//XMLElement* element2 = mSpawningPatterns.FirstChildElement("Level2")->FirstChild()->NextSiblingElement();
 		bool spawned = false;
 		bool priorityFound = false;
 
@@ -283,7 +304,7 @@ void Level::HandleEnemySpawning() {
 		}
 
 		if (!priorityFound) {
-			mSpawningFinished = true;
+  			mSpawningFinished = true;
 		}
 		else {
 			if (!spawned) {
@@ -391,8 +412,13 @@ void Level::HandleEnemyFormation() {
 	}
 	else
 	{
-		HandleEnemyDiving();
+  		HandleEnemyDiving();
 	}
+
+	/*if (mSpawningFinished && mEnemies.size() == 0)
+{
+		levelCleared = true;
+	}*/
 
 	if (levelCleared)
 	{
@@ -584,6 +610,7 @@ void Level::Update() {
 		if (!mSpawningFinished) {
 
 			HandleEnemySpawning();
+			//HandleEnemyDeath();
 		}
 
 		if (!mChallengeStage) {
@@ -600,12 +627,8 @@ void Level::Update() {
 		HandleCollisions();
 
 		if (mPlayerHit) {
-      			HandlePlayerDeath();
+      		HandlePlayerDeath();
 		}
-
-		/*if (mSpawningFinished && mButterflyCount == 0 && mWaspCount == 0 && mBossCount == 0) {
-			mCurrentState = Finished;
-		}*/
 	}
 }
 

@@ -79,7 +79,8 @@ namespace SDLFramework {
         //Create my Physics Layers
         mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Friendly,
             PhysicsManager::CollisionFlags::Hostile |
-            PhysicsManager::CollisionFlags::HostileProjectile);
+            PhysicsManager::CollisionFlags::HostileProjectile /*|
+            PhysicsManager::CollisionFlags::CaptureBeam*/);
 
         mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::FriendlyProjectile,
             PhysicsManager::CollisionFlags::Hostile);

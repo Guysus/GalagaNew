@@ -123,7 +123,7 @@ void Player::Hit(PhysEntity* other) {
 	mAudio->PlaySFX("SFX/PlayerExplosion.wav");
 	mWasHit = true;
 	
-
+	//if(other->GetId() == PhysicsManager::CollisionLayers::CaptureBeam)
 }
 
 void Player::Update() {

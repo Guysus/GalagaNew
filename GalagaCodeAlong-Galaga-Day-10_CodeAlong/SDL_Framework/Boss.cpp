@@ -281,6 +281,8 @@ Boss::Boss(int path, int index, bool challenge) :
     mCapturing = false;
 
     mCaptureBeam = new CaptureBeam();
+    
+    //mCaptureBeam->PhysicsEntity::Parent(this);
     mCaptureBeam->Parent(this);
     mCaptureBeam->Position(0.0f, -190.0f);
     mCaptureBeam->Rotation(180.0f);
