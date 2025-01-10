@@ -111,6 +111,70 @@ void Enemy::CreatePaths() {
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
 	delete path;
+
+	currentPath = 4;
+	path = new BezierPath();
+	path->AddCurve({
+		Vector2(screenMidPoint + 50.0f, -10.0f),
+		Vector2(screenMidPoint + 50.0f, -20.0f),
+		Vector2(screenMidPoint + 50.0f, 30.0f),
+		Vector2(screenMidPoint + 50.0f, 20.0f) }, 1);
+	path->AddCurve({
+		Vector2(screenMidPoint + 50.0f, 20.0f),
+		Vector2(screenMidPoint + 50.0f, 100.0f),
+		Vector2(75.0f, 325.0f),
+		Vector2(75.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(75.0f, 425.0f),
+		Vector2(75.0f, 650.0f),
+		Vector2(350.0f, 650.0f),
+		Vector2(350.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(350.0f, 425.0f),
+		Vector2(350.0f, 175.0f),
+		Vector2(75.0f, 175.0f),
+		Vector2(75.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(75.0f, 425.0f),
+		Vector2(75.0f, 650.0f),
+		Vector2(350.0f, 650.0f),
+		Vector2(350.0f, 425.0f) }, 25);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 5;
+	path = new BezierPath();
+	path->AddCurve({
+		Vector2(screenMidPoint - 50.0f, -10.0f),
+		Vector2(screenMidPoint - 50.0f, -20.0f),
+		Vector2(screenMidPoint - 50.0f, 30.0f),
+		Vector2(screenMidPoint - 50.0f, 20.0f) }, 1);
+	path->AddCurve({
+		Vector2(screenMidPoint - 50.0f, 20.0f),
+		Vector2(screenMidPoint - 50.0f, 100.0f),
+		Vector2(fullScreen - 75.0f, 325.0f),
+		Vector2(fullScreen - 75.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(fullScreen - 75.0f, 425.0f),
+		Vector2(fullScreen - 75.0f, 650.0f),
+		Vector2(fullScreen - 350.0f, 650.0f),
+		Vector2(fullScreen - 350.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(fullScreen - 350.0f, 425.0f),
+		Vector2(fullScreen - 350.0f, 650.0f),
+		Vector2(fullScreen - 100.0f, 150.0f),
+		Vector2(fullScreen - 75.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(fullScreen - 75.0f, 425.0f),
+		Vector2(fullScreen - 75.0f, 650.0f),
+		Vector2(fullScreen - 350.0f, 650.0f),
+		Vector2(fullScreen - 350.0f, 425.0f) }, 25);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
 }
 
 void Enemy::SetFormation(Formation* formation) {

@@ -259,5 +259,11 @@
     <Xml Include="Level2.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+    <Xml Include="Level3.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
+    <Xml Include="Level4Challenge.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
