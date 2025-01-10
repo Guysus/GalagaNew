@@ -64,6 +64,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	std::string fullPath = SDL_GetBasePath();
 	fullPath.append("Data/Level1.xml");
 	mSpawningPatterns.LoadFile(fullPath.c_str());
+	//mElement = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
 
 	mChallengeStage = mSpawningPatterns.FirstChildElement("Level")->FirstChildElement()->BoolAttribute("value");
 
@@ -228,7 +229,6 @@ void Level::HandleEnemySpawning() {
 
 	if (mSpawnTimer >= mSpawnDelay) {
 		XMLElement* element = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
-		//XMLElement* element2 = mSpawningPatterns.FirstChildElement("Level2")->FirstChild()->NextSiblingElement();
 		bool spawned = false;
 		bool priorityFound = false;
 
@@ -588,7 +588,6 @@ void Level::Update() {
 		if (mPlayerHit) {
       		HandlePlayerDeath();
 		}
-		std::cout << mEnemiesKilled << std::endl;
 	}
 }
 
@@ -603,19 +602,6 @@ void Level::Render() {
 		}
 	}
 	else {
-		/*for (auto enemy : mEnemies) {
-			enemy->Render();
-		}
-
-		if (mPlayerHit) {
-			if (mRespawnTimer >= mRespawnLabelOnScreen) {
-				mReadyLabel->Render();
-			}
-
-			if (mGameOverTimer >= mGameOverLabelOnScreen) {
-				mGameOverLabel->Render();
-			}
-		}*/
 
 		if (!mChallengeStage)
 		{

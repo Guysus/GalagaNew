@@ -46,6 +46,7 @@ private:
 	Boss* mFormationBoss[MAX_BOSSES];
 
 	XMLDocument mSpawningPatterns;
+	//XMLElement* mElement;
 	int mCurrentFlyInPriority;
 	int mCurrentFlyInIdex;
 
