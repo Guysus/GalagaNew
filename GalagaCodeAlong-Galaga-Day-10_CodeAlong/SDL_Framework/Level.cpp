@@ -83,9 +83,6 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 		for (int i = 0; i < MAX_BOSSES; i++) {
 			mFormationBoss[i] = nullptr;
 		}
-
-		//create our formation
-		//initialize our enemy arrays
 	}
 
 	mCurrentFlyInPriority = 0;
@@ -221,23 +218,6 @@ void Level::HandlePlayerDeath() {
 			mGameOverTimer += mTimer->DeltaTime();
 			if (mGameOverTimer >= mGameOverDelay) {
 				mCurrentState = GameOver;
-			}
-		}
-	}
-}
-
-void Level::HandleEnemyDeath()
-{
-	for (auto butterfly : mFormationButterflies)
-	{
-		if (butterfly->CurrentState() == Enemy::FlyIn ||
-			butterfly->CurrentState() == Enemy::InFormation ||
-			butterfly->CurrentState() == Enemy::Diving)
-		{
-			if (butterfly->ButterflyHit())
-			{
-				mButterflyHit = true;
-				mButterflyCount--;
 			}
 		}
 	}

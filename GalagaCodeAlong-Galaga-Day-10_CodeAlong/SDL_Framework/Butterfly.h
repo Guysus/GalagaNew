@@ -11,13 +11,10 @@ public:
 	Butterfly(int path, int index, bool challenge);
 	~Butterfly();
 
-	bool ButterflyHit();
-
 private:
 	static std::vector<std::vector<Vector2>> sDivePaths;
 
 	bool mEscort;
-	bool mWasHit;
 
 	Vector2 LocalFormationPosition() override;
 

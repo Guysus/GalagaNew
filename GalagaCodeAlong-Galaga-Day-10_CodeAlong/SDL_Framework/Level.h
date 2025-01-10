@@ -107,7 +107,6 @@ private:
 
 	bool EnemyFlyingIn();
 
-	void HandleEnemyDeath();
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
 	void HandleEnemyDiving();
