@@ -179,11 +179,6 @@ void Boss::HandleCaptureBeam()
 }
 
 void Boss::HandleDiveState() {
-    /*int currentPath = mIndex % 2;
-
-    if (mCaptureDive) {
-        currentPath += 2;
-    }*/
 
     if (mCurrentWaypoint < sDivePaths[mCurrentPath].size()) {
         //Follow dive path
@@ -206,7 +201,7 @@ void Boss::HandleDiveState() {
             }
             else
             {
-                Position(Vector2(WorldFormationPosition().x, 20.0f));
+                Position(Vector2(WorldFormationPosition().x, -20.0f));//was positive 20
             }
         }
     }

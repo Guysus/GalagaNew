@@ -19,12 +19,12 @@ void CaptureBeam::RunAnimation()
 
 		if (mCaptureTimer < 2.0f)
 		{
-			int temp = (int)(mCaptureTimer * 3.5f);
+			float temp = (int)(mCaptureTimer * 3.5f);
 			mSourceRect.h = (int)(temp / 7.0f * mHeight);
 		}
 		else if (mCaptureTimer > mTotalCaptureTime - 2.0f)
 		{
-			int temp = (int)((mTotalCaptureTime - mCaptureTimer) * 3.5f);
+			float temp = (int)((mTotalCaptureTime - mCaptureTimer) * 3.5f);
 			mSourceRect.h = (int)(temp / 7.0f * mHeight);
 		}
 		else
