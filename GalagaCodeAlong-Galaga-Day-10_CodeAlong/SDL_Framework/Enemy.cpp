@@ -424,7 +424,6 @@ void Enemy::RenderStates() {
 		RenderDiveState();
 		break;
 	case Dead:
-		//TODO: Render death texture in dead state
 		RenderDeadState();
 		break;
 	}

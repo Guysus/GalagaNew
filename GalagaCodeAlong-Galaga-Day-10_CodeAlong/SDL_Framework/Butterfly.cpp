@@ -203,8 +203,6 @@ void Butterfly::HandleDiveState() {
     }
 }
 
-void Butterfly::HandleDeadState() { }
-
 void Butterfly::RenderDiveState() { 
     mTextures[0]->Render();
 
@@ -237,8 +235,6 @@ void Butterfly::RenderDiveState() {
         finalPos.y
     );
 }
-
-void Butterfly::RenderDeadState() { }
 
 Butterfly::Butterfly(int path, int index, bool challenge) :
 Enemy(path, index, challenge)

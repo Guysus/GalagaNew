@@ -385,30 +385,24 @@ void Level::HandleEnemyFormation() {
 		}
 	}
 
+	if (levelCleared)
+	{
+		mCurrentState = Finished;
+	}
+
 	if (!mFormation->Locked())
 	{
 		if (mButterflyCount == MAX_BUTTERFLIES && mWaspCount == MAX_WASPS && mBossCount == MAX_BOSSES)
 		{
 			if (!EnemyFlyingIn())
 			{
-				mFormation->Lock();
+  				mFormation->Lock();
 			}
 		}
 	}
 	else
 	{
   		HandleEnemyDiving();
-	}
-
-	
-	if (mEnemiesKilled == MAX_ENEMIES)
-	{
-		levelCleared = true;
-	}
-
-	if (levelCleared)
-	{
-		mCurrentState = Finished;
 	}
 }
 
@@ -596,7 +590,6 @@ void Level::Update() {
 		if (!mSpawningFinished) {
 
 			HandleEnemySpawning();
-			//HandleEnemyDeath();
 		}
 
 		if (!mChallengeStage) {

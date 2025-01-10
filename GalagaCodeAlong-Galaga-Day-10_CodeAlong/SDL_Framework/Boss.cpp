@@ -152,7 +152,7 @@ void Boss::Hit(PhysEntity* other)
         sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 150 : mCaptureDive ? 400 : 800);
         Enemy::Hit(other);
     }
-    else
+    else 
     {
         mWasHit = true;
         SDL_Rect temp = { 0, 64, 60, 64 };
@@ -224,7 +224,6 @@ void Boss::HandleDiveState() {
         }
     }
 }
-void Boss::HandleDeadState() { }
 
 void Boss::RenderDiveState() {
     mTextures[0]->Render();
@@ -250,8 +249,6 @@ void Boss::RenderDiveState() {
         mCaptureBeam->Render();
     }
 }
-
-void Boss::RenderDeadState() { }
 
 Boss::Boss(int path, int index, bool challenge) :
 	Enemy(path, index, challenge)
@@ -287,7 +284,6 @@ Boss::Boss(int path, int index, bool challenge) :
     AddCollider(new BoxCollider(mCaptureBeam->Position()));
 
     mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::CaptureBeam);
-
 
     mWasHit = false;
 }

@@ -109,16 +109,6 @@ void Wasp::Hit(PhysEntity* other)
 	AudioManager::Instance()->PlaySFX("SFX/WaspDestroyed.wav", 0, 3);
 	sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 50 : 100);
 	Enemy::Hit(other);
-
-	/*if (other->GetId() == 1)
-	{
-		AudioManager::Instance()->PlaySFX("SFX/PlayerExplosion.wav", 0, 3);
-	}
-	else if (other->GetId() == 2)
-	{
-		sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 50 : 100);
-		Enemy::Hit(other);
-	}*/
 }
 
 void Wasp::FlyInComplete() {
@@ -169,8 +159,6 @@ void Wasp::HandleDiveState() {
 	}
 }
 
-void Wasp::HandleDeadState() { }
-
 void Wasp::RenderDiveState() {
 	mTextures[0]->Render();
 
@@ -198,8 +186,6 @@ void Wasp::RenderDiveState() {
 		finalPos.y
 	);
 }
-
-void Wasp::RenderDeadState() { }
 
 Wasp::Wasp(int path, int index, bool challenge, bool diver) :
 	Enemy(path, index, challenge), mDiver(diver) {
