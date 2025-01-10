@@ -33,10 +33,12 @@ private:
 	static const int MAX_BUTTERFLIES = 16;
 	static const int MAX_WASPS = 20;
 	static const int MAX_BOSSES = 4;
+	static const int MAX_ENEMIES = 40;
 
 	int mButterflyCount;
 	int mWaspCount;
 	int mBossCount;
+	int mEnemiesKilled;
 	std::vector<Enemy*> mEnemies;
 	
 	Butterfly* mFormationButterflies[MAX_BUTTERFLIES];

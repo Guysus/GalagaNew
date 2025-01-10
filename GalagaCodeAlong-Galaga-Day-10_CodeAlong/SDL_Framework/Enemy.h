@@ -21,6 +21,7 @@ public:
 	Types Type();
 	int Index();
 	bool InDeathAnimation();
+	int GetKillCount();
 
 	Enemy(int path, int index, bool challenge);
 	virtual ~Enemy();
@@ -45,6 +46,7 @@ protected:
 	Types mType;
 
 	int mIndex;
+	int mKillCount;
 
 	bool mChallengeStage;
 

@@ -269,6 +269,11 @@ bool Enemy::InDeathAnimation()
 	return mDeathAnimation->IsAnimating();
 }
 
+int Enemy::GetKillCount()
+{
+	return mKillCount;
+}
+
 void Enemy::Dive(int type) {
 	Parent(nullptr);
 	mCurrentState = Diving;
@@ -283,6 +288,7 @@ void Enemy::Hit(PhysEntity* other)
 		Parent(nullptr);
 	}
 
+	mKillCount++;
 	mCurrentState = Dead;
 }
 

@@ -59,6 +59,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mButterflyCount = 0;
 	mWaspCount = 0;
 	mBossCount = 0;
+	mEnemiesKilled = 0;
 
 	std::string fullPath = SDL_GetBasePath();
 	fullPath.append("Data/Level1.xml");
@@ -348,22 +349,6 @@ void Level::HandleEnemyFormation() {
 	bool levelCleared = mSpawningFinished;
 	mFormation->Update();
 
-	/*if (mButterflyCount == MAX_BUTTERFLIES && 
-		mWaspCount == MAX_WASPS &&
-		mBossCount == MAX_BOSSES) {
-		bool flyIn = false;
-		for (auto enemy : mEnemies) {
-			if (enemy->CurrentState() == Enemy::FlyIn) {
-				flyIn = true;
-				break;
-			}
-		}
-
-		if (!flyIn) {
-			mFormation->Lock();
-		}
-	}*/
-
 	for (Butterfly* butterfly : mFormationButterflies)
 	{
 		if (butterfly != nullptr)
@@ -415,10 +400,11 @@ void Level::HandleEnemyFormation() {
   		HandleEnemyDiving();
 	}
 
-	/*if (mSpawningFinished && mEnemies.size() == 0)
-{
+	
+	if (mEnemiesKilled == MAX_ENEMIES)
+	{
 		levelCleared = true;
-	}*/
+	}
 
 	if (levelCleared)
 	{
@@ -629,6 +615,7 @@ void Level::Update() {
 		if (mPlayerHit) {
       		HandlePlayerDeath();
 		}
+		std::cout << mEnemiesKilled << std::endl;
 	}
 }
 
