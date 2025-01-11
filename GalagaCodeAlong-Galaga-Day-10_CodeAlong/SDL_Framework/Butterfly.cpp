@@ -165,15 +165,9 @@ void Butterfly::Dive(int type) {
 
 void Butterfly::Hit(PhysEntity* other)
 {
-    if (other->GetId() == 1)
-    {
-        AudioManager::Instance()->PlaySFX("SFX/ButterflyDestroyed.wav", 0, 3);
-    }
-    else if (other->GetId() == 2)
-    {
-        sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 80 : 160);
-        Enemy::Hit(other);
-    }
+    AudioManager::Instance()->PlaySFX("SFX/ButterflyDestroyed.wav", 0, 3);
+    sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 80 : 160);
+    Enemy::Hit(other);
 }
 
 void Butterfly::HandleDiveState() { 
@@ -208,42 +202,36 @@ void Butterfly::HandleDiveState() {
     }
 }
 
-void Butterfly::HandleDeadState() { }
-
 void Butterfly::RenderDiveState() { 
     mTextures[0]->Render();
 
-    //debug render of the dive path
-    //TODO: Comment out the below for finished product
     int currentPath = mIndex % 2;
 
     if (mEscort) {
         currentPath += 2;
     }
 
-    for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {
+    /*for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {
         Graphics::Instance()->DrawLine(
             mDiveStartPosition.x + sDivePaths[currentPath][i].x,
             mDiveStartPosition.y + sDivePaths[currentPath][i].y,
             mDiveStartPosition.x + sDivePaths[currentPath][i + 1].x,
             mDiveStartPosition.y + sDivePaths[currentPath][i + 1].y
         );
-    }
+    }*/
 
     //debug render of the return path
     Vector2 finalPos = WorldFormationPosition();
     auto currentDivePath = sDivePaths[currentPath];
     Vector2 pathEndPos = mDiveStartPosition + sDivePaths[currentPath][sDivePaths[currentPath].size() - 1];
 
-    Graphics::Instance()->DrawLine(
+    /*Graphics::Instance()->DrawLine(
         pathEndPos.x,
         pathEndPos.y,
         finalPos.x,
         finalPos.y
-    );
+    );*/
 }
-
-void Butterfly::RenderDeadState() { }
 
 Butterfly::Butterfly(int path, int index, bool challenge) :
 Enemy(path, index, challenge)

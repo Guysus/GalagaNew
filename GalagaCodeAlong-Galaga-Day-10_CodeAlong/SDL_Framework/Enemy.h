@@ -21,6 +21,7 @@ public:
 	Types Type();
 	int Index();
 	bool InDeathAnimation();
+	int GetKillCount();
 
 	Enemy(int path, int index, bool challenge);
 	virtual ~Enemy();
@@ -45,6 +46,7 @@ protected:
 	Types mType;
 
 	int mIndex;
+	int mKillCount;
 
 	bool mChallengeStage;
 
@@ -70,14 +72,14 @@ protected:
 	virtual void HandleFlyInState();
 	virtual void HandleInFormationState();
 	virtual void HandleDiveState() = 0;
-	virtual void HandleDeadState() = 0;
+	virtual void HandleDeadState();
 
 	void HandleStates();
 
 	virtual void RenderFlyInState();
 	virtual void RenderInFormationState();
 	virtual void RenderDiveState() = 0;
-	virtual void RenderDeadState() = 0;
+	virtual void RenderDeadState();
 
 	void RenderStates();
 };

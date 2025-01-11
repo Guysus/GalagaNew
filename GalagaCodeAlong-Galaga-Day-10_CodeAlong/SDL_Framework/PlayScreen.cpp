@@ -41,8 +41,8 @@ PlayScreen::~PlayScreen() {
 	delete mLevel;
 	mLevel = nullptr;
 
-	delete mPlayer;
-	mPlayer = nullptr;
+	/*delete mPlayer;
+	mPlayer = nullptr;*/
 }
 
 void PlayScreen::StartNewGame() {
@@ -63,7 +63,7 @@ void PlayScreen::StartNewGame() {
 	mLevelStartTimer = 0.0f;
 	mCurrentStage = 0;
 
-	//mAudio->PlayMusic("MUS/GameStart.wav", 0);
+	mAudio->PlayMusic("MUS/GameStart.wav", 0);
 }
 
 void PlayScreen::StartNextLevel() {

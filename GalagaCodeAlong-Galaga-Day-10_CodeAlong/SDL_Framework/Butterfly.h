@@ -19,8 +19,6 @@ private:
 	Vector2 LocalFormationPosition() override;
 
 	void HandleDiveState() override;
-	void HandleDeadState() override;
 
 	void RenderDiveState() override;
-	void RenderDeadState() override;
 };

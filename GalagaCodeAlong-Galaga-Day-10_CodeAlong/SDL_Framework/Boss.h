@@ -29,8 +29,6 @@ private:
 
 	void HandleCaptureBeam();
 	void HandleDiveState() override;
-	void HandleDeadState() override;
 
 	void RenderDiveState() override;
-	void RenderDeadState() override;
 };

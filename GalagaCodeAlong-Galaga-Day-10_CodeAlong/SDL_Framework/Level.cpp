@@ -11,6 +11,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mBackgroundStars = BackgroundStars::Instance();
 
 	mStage = stage;
+	mCurrentStage = stage;
 	mStageStarted = false;
 
 	mLabelTimer = 0.0f;
@@ -36,6 +37,9 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 
 	mPlayer = player;
 	mPlayerHit = false;
+	mButterflyHit = false;
+	mWaspHit = false;
+	mBossHit = false;
 	mRespawnDelay = 3.0f;
 	mRespawnLabelOnScreen = 2.0f;
 
@@ -56,12 +60,9 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mButterflyCount = 0;
 	mWaspCount = 0;
 	mBossCount = 0;
+	mEnemiesKilled = 0;
 
-	std::string fullPath = SDL_GetBasePath();
-	fullPath.append("Data/Level1.xml");
-	mSpawningPatterns.LoadFile(fullPath.c_str());
-
-	mChallengeStage = mSpawningPatterns.FirstChildElement("Level")->FirstChildElement()->BoolAttribute("value");
+	HandleCurrentStage();
 
 	if (!mChallengeStage) {
 		mFormation = new Formation();
@@ -79,9 +80,6 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 		for (int i = 0; i < MAX_BOSSES; i++) {
 			mFormationBoss[i] = nullptr;
 		}
-
-		//create our formation
-		//initialize our enemy arrays
 	}
 
 	mCurrentFlyInPriority = 0;
@@ -105,6 +103,8 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mSkipFirstBoss = true;
 	mBossDiveDelay = 5.0f;
 	mBossDiveTimer = 0.0f;
+
+	Enemy::CurrentPlayer(mPlayer);
 }
 
 Level::~Level() {
@@ -176,8 +176,8 @@ void Level::HandleStartLabels() {
 void Level::HandleCollisions() {
 	if (!mPlayerHit) {
 		//Quick sanity test
-		if (mPlayer->WasHit()) {
-			//mPlayer->WasHit();
+		if (mPlayer->WasHit())
+		{
 			mSideBar->SetShips(mPlayer->Lives());
 
 			mPlayerHit = true;
@@ -224,17 +224,17 @@ void Level::HandleEnemySpawning() {
 	mSpawnTimer += mTimer->DeltaTime();
 
 	if (mSpawnTimer >= mSpawnDelay) {
-		XMLElement* element = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
+		HandleCurrentStage();
 		bool spawned = false;
 		bool priorityFound = false;
 
-		while (element != nullptr) {
-			int priority = element->IntAttribute("priority");
+		while (mElement != nullptr) {
+			int priority = mElement->IntAttribute("priority");
 
 			if (mCurrentFlyInPriority == priority) {
 				priorityFound = true;
-				int path = element->IntAttribute("path");
-				XMLElement* child = element->FirstChildElement();
+				int path = mElement->IntAttribute("path");
+				XMLElement* child = mElement->FirstChildElement();
 
 				//this for is always going to give us the next/last child based on our flyinIndex
 				for (int i = 0; i < mCurrentFlyInIdex && child != nullptr; i++) {
@@ -277,11 +277,11 @@ void Level::HandleEnemySpawning() {
 				}
 			}
 
-			element = element->NextSiblingElement();
+			mElement = mElement->NextSiblingElement();
 		}
 
 		if (!priorityFound) {
-			mSpawningFinished = true;
+  			mSpawningFinished = true;
 		}
 		else {
 			if (!spawned) {
@@ -296,26 +296,8 @@ void Level::HandleEnemySpawning() {
 				mCurrentFlyInIdex++;
 			}
 		}
-
 		mSpawnTimer = 0;
 	}
-
-	//TODO: Remove when finished testing
-
-	/*if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) &&
-		mButterflyCount < MAX_BUTTERFLIES) {
-		mEnemies.push_back(new Butterfly(0, mButterflyCount++, false));
-	}
-
-	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W) &&
-		mWaspCount < MAX_WASPS) {
-		mEnemies.push_back(new Wasp(0, mWaspCount++, false, false));
-	}
-
-	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_F) &&
-		mBossCount < MAX_BOSSES) {
-		mEnemies.push_back(new Boss(0, mBossCount++, false));
-	}*/
 }
 
 bool Level::EnemyFlyingIn() {
@@ -325,28 +307,23 @@ bool Level::EnemyFlyingIn() {
 		}
 	}
 
+	for (Wasp* wasp : mFormationWasp) {
+		if (wasp != nullptr && wasp->CurrentState() == Enemy::FlyIn) {
+			return true;
+		}
+	}
+
+	for (Boss* boss : mFormationBoss) {
+		if (boss != nullptr && boss->CurrentState() == Enemy::FlyIn) {
+			return true;
+		}
+	}
 	return false;
 }
 
 void Level::HandleEnemyFormation() {
 	bool levelCleared = mSpawningFinished;
 	mFormation->Update();
-
-	/*if (mButterflyCount == MAX_BUTTERFLIES && 
-		mWaspCount == MAX_WASPS &&
-		mBossCount == MAX_BOSSES) {
-		bool flyIn = false;
-		for (auto enemy : mEnemies) {
-			if (enemy->CurrentState() == Enemy::FlyIn) {
-				flyIn = true;
-				break;
-			}
-		}
-
-		if (!flyIn) {
-			mFormation->Lock();
-		}
-	}*/
 
 	for (Butterfly* butterfly : mFormationButterflies)
 	{
@@ -384,24 +361,24 @@ void Level::HandleEnemyFormation() {
 		}
 	}
 
+	if (levelCleared)
+	{
+		mCurrentState = Finished;
+	}
+
 	if (!mFormation->Locked())
 	{
 		if (mButterflyCount == MAX_BUTTERFLIES && mWaspCount == MAX_WASPS && mBossCount == MAX_BOSSES)
 		{
 			if (!EnemyFlyingIn())
 			{
-				mFormation->Lock();
+  				mFormation->Lock();
 			}
 		}
 	}
 	else
 	{
-		HandleEnemyDiving();
-	}
-
-	if (levelCleared)
-	{
-		mCurrentState = Finished;
+  		HandleEnemyDiving();
 	}
 }
 
@@ -491,10 +468,7 @@ void Level::HandleEnemyDiving() {
 					if (!mSkipFirstBoss || (mSkipFirstBoss && skipped))
 					{
 						mDivingBoss = mFormationBoss[i];
-						mDivingBoss->Dive();
-						mSkipFirstBoss = !mSkipFirstBoss;
-						break;
-
+					
 						if (mCaptureDive)
 						{
 							mDivingBoss->Dive(1);
@@ -517,6 +491,7 @@ void Level::HandleEnemyDiving() {
 								mFormationButterflies[secondEscortIndex]->Dive(1);
 							}
 						}
+						mSkipFirstBoss = !mSkipFirstBoss;
 						mCaptureDive = !mCaptureDive;
 						break;
 					}
@@ -583,6 +558,41 @@ void Level::HandleEnemyDiving() {
 	//}
 }
 
+void Level::HandleCurrentStage()
+{
+	std::string fullPath = SDL_GetBasePath();
+
+	switch (mCurrentStage)
+	{
+	case 1:
+		fullPath.append("Data/Level1.xml");
+		mSpawningPatterns.LoadFile(fullPath.c_str());
+		mElement = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
+		mChallengeStage = mSpawningPatterns.FirstChildElement("Level")->FirstChildElement()->BoolAttribute("value");
+		break;
+	case 2:
+		fullPath.append("Data/Level2.xml");
+		mSpawningPatterns.LoadFile(fullPath.c_str());
+		mElement = mSpawningPatterns.FirstChildElement("Level2")->FirstChild()->NextSiblingElement();
+		mChallengeStage = mSpawningPatterns.FirstChildElement("Level2")->FirstChildElement()->BoolAttribute("value");
+		break;
+	case 3:
+		fullPath.append("Data/Level3.xml");
+		mSpawningPatterns.LoadFile(fullPath.c_str());
+		mElement = mSpawningPatterns.FirstChildElement("Level3")->FirstChild()->NextSiblingElement();
+		mChallengeStage = mSpawningPatterns.FirstChildElement("Level3")->FirstChildElement()->BoolAttribute("value");
+		break;
+	case 4:
+		fullPath.append("Data/Level4.xml");
+		mSpawningPatterns.LoadFile(fullPath.c_str());
+		mElement = mSpawningPatterns.FirstChildElement("Level4")->FirstChild()->NextSiblingElement();
+		mChallengeStage = mSpawningPatterns.FirstChildElement("Level4")->FirstChildElement()->BoolAttribute("value");
+		break;
+	default:
+		break;
+	}
+}
+
 void Level::Update() {
 	if (!mStageStarted) {
 		HandleStartLabels();
@@ -607,14 +617,8 @@ void Level::Update() {
 		HandleCollisions();
 
 		if (mPlayerHit) {
-			HandlePlayerDeath();
+      		HandlePlayerDeath();
 		}
-
-		if (mSpawningFinished && mButterflyCount <= 0 && mWaspCount <= 0 && mBossCount <= 0) {
-			mCurrentState = Finished;
-		}
-
-		
 	}
 }
 
@@ -629,19 +633,6 @@ void Level::Render() {
 		}
 	}
 	else {
-		/*for (auto enemy : mEnemies) {
-			enemy->Render();
-		}
-
-		if (mPlayerHit) {
-			if (mRespawnTimer >= mRespawnLabelOnScreen) {
-				mReadyLabel->Render();
-			}
-
-			if (mGameOverTimer >= mGameOverLabelOnScreen) {
-				mGameOverLabel->Render();
-			}
-		}*/
 
 		if (!mChallengeStage)
 		{

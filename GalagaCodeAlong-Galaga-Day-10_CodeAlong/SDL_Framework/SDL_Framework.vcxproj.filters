@@ -256,5 +256,14 @@
     <Xml Include="Data\Level1.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+    <Xml Include="Data\Level2.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
+    <Xml Include="Data\Level3.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
+    <Xml Include="Data\Level4Challenge.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

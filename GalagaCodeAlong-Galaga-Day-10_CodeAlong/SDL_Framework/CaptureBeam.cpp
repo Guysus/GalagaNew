@@ -19,12 +19,12 @@ void CaptureBeam::RunAnimation()
 
 		if (mCaptureTimer < 2.0f)
 		{
-			int temp = (int)(mCaptureTimer * 3.5f);
+			float temp = (int)(mCaptureTimer * 3.5f);
 			mSourceRect.h = (int)(temp / 7.0f * mHeight);
 		}
 		else if (mCaptureTimer > mTotalCaptureTime - 2.0f)
 		{
-			int temp = (int)((mTotalCaptureTime - mCaptureTimer) * 3.5f);
+			float temp = (int)((mTotalCaptureTime - mCaptureTimer) * 3.5f);
 			mSourceRect.h = (int)(temp / 7.0f * mHeight);
 		}
 		else
@@ -34,10 +34,24 @@ void CaptureBeam::RunAnimation()
 	}
 }
 
+bool CaptureBeam::IgnoreCollision()
+{
+	if (mCaptureTimer > 2.1 && mCaptureTimer < 4)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+	
+}
+
 CaptureBeam::CaptureBeam() : AnimatedTexture("CaptureBeam.png", 0, 0, 184, 320, 3, 0.5f, Horizontal)
 {
 	mTotalCaptureTime = 6.0f;
 	ResetAnimation();
+	//AddCollider(new BoxCollider(mCaptureBeam->ScaledDimensions()));
 }
 
 CaptureBeam::~CaptureBeam() { }

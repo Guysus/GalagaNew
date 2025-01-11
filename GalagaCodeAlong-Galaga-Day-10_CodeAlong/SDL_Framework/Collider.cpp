@@ -11,9 +11,9 @@ namespace SDLFramework {
 	}
 
 	void Collider::Render() {
-		if (DEBUG_COLLIDERS) {
+		/*if (DEBUG_COLLIDERS) {
 			mDebugTexture->Render();
-		}
+		}*/
 	}
 
 	Collider::ColliderType Collider::GetType() {

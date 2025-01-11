@@ -111,6 +111,70 @@ void Enemy::CreatePaths() {
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
 	delete path;
+
+	currentPath = 4;
+	path = new BezierPath();
+	path->AddCurve({
+		Vector2(screenMidPoint + 50.0f, -10.0f),
+		Vector2(screenMidPoint + 50.0f, -20.0f),
+		Vector2(screenMidPoint + 50.0f, 30.0f),
+		Vector2(screenMidPoint + 50.0f, 20.0f) }, 1);
+	path->AddCurve({
+		Vector2(screenMidPoint + 50.0f, 20.0f),
+		Vector2(screenMidPoint + 50.0f, 100.0f),
+		Vector2(75.0f, 325.0f),
+		Vector2(75.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(75.0f, 425.0f),
+		Vector2(75.0f, 650.0f),
+		Vector2(350.0f, 650.0f),
+		Vector2(350.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(350.0f, 425.0f),
+		Vector2(350.0f, 175.0f),
+		Vector2(75.0f, 175.0f),
+		Vector2(75.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(75.0f, 425.0f),
+		Vector2(75.0f, 650.0f),
+		Vector2(350.0f, 650.0f),
+		Vector2(350.0f, 425.0f) }, 25);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 5;
+	path = new BezierPath();
+	path->AddCurve({
+		Vector2(screenMidPoint - 50.0f, -10.0f),
+		Vector2(screenMidPoint - 50.0f, -20.0f),
+		Vector2(screenMidPoint - 50.0f, 30.0f),
+		Vector2(screenMidPoint - 50.0f, 20.0f) }, 1);
+	path->AddCurve({
+		Vector2(screenMidPoint - 50.0f, 20.0f),
+		Vector2(screenMidPoint - 50.0f, 100.0f),
+		Vector2(fullScreen - 75.0f, 325.0f),
+		Vector2(fullScreen - 75.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(fullScreen - 75.0f, 425.0f),
+		Vector2(fullScreen - 75.0f, 650.0f),
+		Vector2(fullScreen - 350.0f, 650.0f),
+		Vector2(fullScreen - 350.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(fullScreen - 350.0f, 425.0f),
+		Vector2(fullScreen - 350.0f, 650.0f),
+		Vector2(fullScreen - 100.0f, 150.0f),
+		Vector2(fullScreen - 75.0f, 425.0f) }, 25);
+	path->AddCurve({
+		Vector2(fullScreen - 75.0f, 425.0f),
+		Vector2(fullScreen - 75.0f, 650.0f),
+		Vector2(fullScreen - 350.0f, 650.0f),
+		Vector2(fullScreen - 350.0f, 425.0f) }, 25);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
 }
 
 void Enemy::SetFormation(Formation* formation) {
@@ -142,8 +206,6 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mDeathAnimation->Parent(this);
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(AnimatedTexture::Once);
-
-	sPlayer = new Player();
 }
 
 Enemy::~Enemy() {
@@ -157,9 +219,6 @@ Enemy::~Enemy() {
 
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
-
-	delete sPlayer;
-	sPlayer = nullptr;
 }
 
 Enemy::States Enemy::CurrentState() {
@@ -210,6 +269,11 @@ bool Enemy::InDeathAnimation()
 	return mDeathAnimation->IsAnimating();
 }
 
+int Enemy::GetKillCount()
+{
+	return mKillCount;
+}
+
 void Enemy::Dive(int type) {
 	Parent(nullptr);
 	mCurrentState = Diving;
@@ -224,6 +288,7 @@ void Enemy::Hit(PhysEntity* other)
 		Parent(nullptr);
 	}
 
+	mKillCount++;
 	mCurrentState = Dead;
 }
 
@@ -288,6 +353,14 @@ void Enemy::HandleInFormationState() {
 	}
 }
 
+void Enemy::HandleDeadState()
+{
+	if (mDeathAnimation->IsAnimating())
+	{
+		mDeathAnimation->Update();
+	}
+}
+
 void Enemy::HandleStates() {
 	switch (mCurrentState) {
 	case FlyIn:
@@ -308,26 +381,34 @@ void Enemy::HandleStates() {
 void Enemy::RenderFlyInState() {
 	mTextures[0]->Render();
 
-	for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {
+	/*for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {
 		Graphics::Instance()->DrawLine(
 			sPaths[mCurrentPath][i].x,
 			sPaths[mCurrentPath][i].y,
 			sPaths[mCurrentPath][i + 1].x,
 			sPaths[mCurrentPath][i + 1].y
 		);
-	}
+	}*/
 }
 
 void Enemy::RenderInFormationState() {
 	mTextures[sFormation->GetTick() % 2]->Render();
 
-	for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {
+	/*for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {
 		Graphics::Instance()->DrawLine(
 			sPaths[mCurrentPath][i].x,
 			sPaths[mCurrentPath][i].y,
 			sPaths[mCurrentPath][i + 1].x,
 			sPaths[mCurrentPath][i + 1].y
 		);
+	}*/
+}
+
+void Enemy::RenderDeadState()
+{
+	if (mDeathAnimation->IsAnimating())
+	{
+		mDeathAnimation->Render();
 	}
 }
 
@@ -343,7 +424,6 @@ void Enemy::RenderStates() {
 		RenderDiveState();
 		break;
 	case Dead:
-		//TODO: Render death texture in dead state
 		RenderDeadState();
 		break;
 	}

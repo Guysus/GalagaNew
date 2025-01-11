@@ -33,10 +33,12 @@ private:
 	static const int MAX_BUTTERFLIES = 16;
 	static const int MAX_WASPS = 20;
 	static const int MAX_BOSSES = 4;
+	static const int MAX_ENEMIES = 40;
 
 	int mButterflyCount;
 	int mWaspCount;
 	int mBossCount;
+	int mEnemiesKilled;
 	std::vector<Enemy*> mEnemies;
 	
 	Butterfly* mFormationButterflies[MAX_BUTTERFLIES];
@@ -44,6 +46,7 @@ private:
 	Boss* mFormationBoss[MAX_BOSSES];
 
 	XMLDocument mSpawningPatterns;
+	XMLElement* mElement;
 	int mCurrentFlyInPriority;
 	int mCurrentFlyInIdex;
 
@@ -52,6 +55,7 @@ private:
 	bool mSpawningFinished;
 
 	int mStage;
+	int mCurrentStage;
 	bool mChallengeStage;
 	bool mStageStarted;
 
@@ -67,6 +71,9 @@ private:
 	float mLabelTimer;
 
 	bool mPlayerHit;
+	bool mButterflyHit;
+	bool mWaspHit;
+	bool mBossHit;
 	float mRespawnDelay;
 	float mRespawnTimer;
 	float mRespawnLabelOnScreen;
@@ -105,4 +112,6 @@ private:
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
 	void HandleEnemyDiving();
+
+	void HandleCurrentStage();
 };

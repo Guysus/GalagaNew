@@ -7,7 +7,8 @@ void Wasp::CreateDivePaths() {
 	BezierPath* path = new BezierPath();
 
 	path->AddCurve({
-		Vector2(Vec2_Zero),
+		//Vector2(Vec2_Zero),
+		Vector2(0.0f, 0.0f),
 		Vector2(0.0f, -45.0f),
 		Vector2(-60.0f, -45.0f),
 		Vector2(-60.0f, 0.0f)
@@ -33,10 +34,9 @@ void Wasp::CreateDivePaths() {
 
 	sDivePaths.push_back(std::vector<Vector2>());
 	path->Sample(&sDivePaths[currentPath]);
-
 	delete path;
 
-	currentPath++;
+	currentPath = 1;
 
 	path = new BezierPath();
 
@@ -64,20 +64,52 @@ void Wasp::CreateDivePaths() {
 	sDivePaths.push_back(std::vector<Vector2>());
 	path->Sample(&sDivePaths[currentPath]);
 	delete path;
+
+	currentPath = 2;
+
+	path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(0.0f, 0.0f),
+		Vector2(0.0f, -60.0f),
+		Vector2(60.0f, -45.0f),
+		Vector2(60.f, 0.0f) }, 15);
+	path->AddCurve({
+		Vector2(60.0f, 0.0f),
+		Vector2(60.0f, 80.0f),
+		Vector2(0.0f, 150.0f),
+		Vector2(-100.0f, 150.0f) }, 15);
+	path->AddCurve({
+		Vector2(-100.0f, 150.0f),
+		Vector2(-250.0f, 150.0f),
+		Vector2(-350.0f, 200.0f),
+		Vector2(-350.0f, 350.0f) }, 15);
+	path->AddCurve({
+		Vector2(-350.0f, 350.0f),
+		Vector2(-350.0f, 575.0f),
+		Vector2(-100.0f, 575.0f),
+		Vector2(-100.0f, 350.0f) }, 15);
+	path->AddCurve({
+		Vector2(-100.0f, 350.0f),
+		Vector2(-250.0f, 150.0f),
+		Vector2(-350.0f, 200.0f),
+		Vector2(-350.0f, 350.0f) }, 15);
+	path->AddCurve({
+		Vector2(-350.0f, 350.0f),
+		Vector2(-350.0f, 575.0f),
+		Vector2(-100.0f, 575.0f),
+		Vector2(-100.0f, 350.0f) }, 15);
+
+	sDivePaths.push_back(std::vector<Vector2>());
+	path->Sample(&sDivePaths[currentPath]);
+	delete path;
 }
 
 void Wasp::Hit(PhysEntity* other)
 {
-	
-	if (other->GetId() == 1)
-	{
-		AudioManager::Instance()->PlaySFX("SFX/PlayerExplosion.wav", 0, 3);
-	}
-	else if (other->GetId() == 2)
-	{
-		sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 50 : 100);
-		Enemy::Hit(other);
-	}
+	AudioManager::Instance()->PlaySFX("SFX/WaspDestroyed.wav", 0, 3);
+	sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 50 : 100);
+	Enemy::Hit(other);
 }
 
 void Wasp::FlyInComplete() {
@@ -128,37 +160,33 @@ void Wasp::HandleDiveState() {
 	}
 }
 
-void Wasp::HandleDeadState() { }
-
 void Wasp::RenderDiveState() {
 	mTextures[0]->Render();
 
 	//debug render of the dive path
 	//TODO: Comment out the below for finished product
 	int currentPath = mIndex % 2;
-	for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {
+	/*for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {
 		Graphics::Instance()->DrawLine(
 			mDiveStartPosition.x + sDivePaths[currentPath][i].x,
 			mDiveStartPosition.y + sDivePaths[currentPath][i].y,
 			mDiveStartPosition.x + sDivePaths[currentPath][i + 1].x,
 			mDiveStartPosition.y + sDivePaths[currentPath][i + 1].y
 		);
-	}
+	}*/
 
 	//debug render of the return path
 	Vector2 finalPos = WorldFormationPosition();
 	//auto currentDivePath = sDivePaths[currentPath];
 	Vector2 pathEndPos = mDiveStartPosition + sDivePaths[currentPath][sDivePaths[currentPath].size() - 1];
 
-	Graphics::Instance()->DrawLine(
+	/*Graphics::Instance()->DrawLine(
 		pathEndPos.x,
 		pathEndPos.y,
 		finalPos.x,
 		finalPos.y
-	);
+	);*/
 }
-
-void Wasp::RenderDeadState() { }
 
 Wasp::Wasp(int path, int index, bool challenge, bool diver) :
 	Enemy(path, index, challenge), mDiver(diver) {

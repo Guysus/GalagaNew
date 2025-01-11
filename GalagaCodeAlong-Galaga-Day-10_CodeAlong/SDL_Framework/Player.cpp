@@ -108,13 +108,12 @@ int Player::Lives() {
 	return mLives;
 }
 
-//TODO: Temporary functionality. Hit() will be what runs this functionality
 bool Player::WasHit() {
 	return mWasHit;
 }
 
 bool Player::IgnoreCollisions() {
-	return !mVisible || mAnimating;
+	return !mVisible || mAnimating || !Active();
 }
 
 void Player::Hit(PhysEntity* other) {
@@ -123,10 +122,18 @@ void Player::Hit(PhysEntity* other) {
 	mDeathAnimation->ResetAnimation();
 	mAudio->PlaySFX("SFX/PlayerExplosion.wav");
 	mWasHit = true;
+	
+	//if(other->GetId() == PhysicsManager::CollisionLayers::CaptureBeam)
 }
 
 void Player::Update() {
 	if (mAnimating) {
+
+		if (mWasHit)
+		{
+			mWasHit = false;
+		}
+
 		mDeathAnimation->Update();
 		mAnimating = mDeathAnimation->IsAnimating();
 	}
@@ -134,7 +141,6 @@ void Player::Update() {
 		if (Active()) {
 			HandleMovement();
 			HandleFiring();
-			//AddScore(mScore);
 		}
 	}
 
