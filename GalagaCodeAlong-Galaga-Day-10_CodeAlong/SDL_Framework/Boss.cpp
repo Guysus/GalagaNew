@@ -235,14 +235,14 @@ void Boss::RenderDiveState() {
         currentPath += 2;
     }
 
-    for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {
+    /*for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {
         Graphics::Instance()->DrawLine(
             mDiveStartPosition.x + sDivePaths[currentPath][i].x,
             mDiveStartPosition.y + sDivePaths[currentPath][i].y,
             mDiveStartPosition.x + sDivePaths[currentPath][i + 1].x,
             mDiveStartPosition.y + sDivePaths[currentPath][i + 1].y
         );
-    }
+    }*/
 
     if (mCapturing && mCaptureBeam->IsAnimating())
     {
@@ -280,8 +280,8 @@ Boss::Boss(int path, int index, bool challenge) :
     mCaptureBeam->Rotation(180.0f);
     
     AddCollider(new BoxCollider(mTextures[1]->ScaledDimensions()));
-    //AddCollider(new BoxCollider(mCaptureBeam->ScaledDimensions()));
-    AddCollider(new BoxCollider(mCaptureBeam->Position()));
+    AddCollider(new BoxCollider(mCaptureBeam->ScaledDimensions()));
+    //AddCollider(new BoxCollider(mCaptureBeam->Position()));
 
     mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::CaptureBeam);
 

@@ -62,12 +62,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mBossCount = 0;
 	mEnemiesKilled = 0;
 
-	/*std::string fullPath = SDL_GetBasePath();
-	fullPath.append("Data/Level1.xml");
-	mSpawningPatterns.LoadFile(fullPath.c_str());
-	mElement = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();*/
 	HandleCurrentStage();
-	//mChallengeStage = mSpawningPatterns.FirstChildElement("Level")->FirstChildElement()->BoolAttribute("value");
 
 	if (!mChallengeStage) {
 		mFormation = new Formation();

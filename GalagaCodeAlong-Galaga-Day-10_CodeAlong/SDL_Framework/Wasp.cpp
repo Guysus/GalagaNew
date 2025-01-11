@@ -166,26 +166,26 @@ void Wasp::RenderDiveState() {
 	//debug render of the dive path
 	//TODO: Comment out the below for finished product
 	int currentPath = mIndex % 2;
-	for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {
+	/*for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {
 		Graphics::Instance()->DrawLine(
 			mDiveStartPosition.x + sDivePaths[currentPath][i].x,
 			mDiveStartPosition.y + sDivePaths[currentPath][i].y,
 			mDiveStartPosition.x + sDivePaths[currentPath][i + 1].x,
 			mDiveStartPosition.y + sDivePaths[currentPath][i + 1].y
 		);
-	}
+	}*/
 
 	//debug render of the return path
 	Vector2 finalPos = WorldFormationPosition();
 	//auto currentDivePath = sDivePaths[currentPath];
 	Vector2 pathEndPos = mDiveStartPosition + sDivePaths[currentPath][sDivePaths[currentPath].size() - 1];
 
-	Graphics::Instance()->DrawLine(
+	/*Graphics::Instance()->DrawLine(
 		pathEndPos.x,
 		pathEndPos.y,
 		finalPos.x,
 		finalPos.y
-	);
+	);*/
 }
 
 Wasp::Wasp(int path, int index, bool challenge, bool diver) :

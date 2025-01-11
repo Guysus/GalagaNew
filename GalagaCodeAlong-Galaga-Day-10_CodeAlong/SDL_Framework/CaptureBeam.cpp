@@ -34,6 +34,19 @@ void CaptureBeam::RunAnimation()
 	}
 }
 
+bool CaptureBeam::IgnoreCollision()
+{
+	if (mCaptureTimer > 2.1 && mCaptureTimer < 4)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+	
+}
+
 CaptureBeam::CaptureBeam() : AnimatedTexture("CaptureBeam.png", 0, 0, 184, 320, 3, 0.5f, Horizontal)
 {
 	mTotalCaptureTime = 6.0f;

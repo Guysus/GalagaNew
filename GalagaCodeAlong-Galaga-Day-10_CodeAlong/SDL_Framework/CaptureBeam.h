@@ -10,6 +10,7 @@ class CaptureBeam : public AnimatedTexture
 private:
 
 	void RunAnimation() override;
+	bool IgnoreCollision();
 
 public:
 	CaptureBeam();
