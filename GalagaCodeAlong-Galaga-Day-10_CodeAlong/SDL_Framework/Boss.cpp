@@ -280,10 +280,10 @@ Boss::Boss(int path, int index, bool challenge) :
     mCaptureBeam->Rotation(180.0f);
     
     AddCollider(new BoxCollider(mTextures[1]->ScaledDimensions()));
-    AddCollider(new BoxCollider(mCaptureBeam->ScaledDimensions()));
+    //AddCollider(new BoxCollider(mCaptureBeam->ScaledDimensions()));
     //AddCollider(new BoxCollider(mCaptureBeam->Position()));
 
-    mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::CaptureBeam);
+    //mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::CaptureBeam);
 
     mWasHit = false;
 }

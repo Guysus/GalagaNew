@@ -225,7 +225,6 @@ void Level::HandleEnemySpawning() {
 
 	if (mSpawnTimer >= mSpawnDelay) {
 		HandleCurrentStage();
-		//XMLElement* mElement = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
 		bool spawned = false;
 		bool priorityFound = false;
 

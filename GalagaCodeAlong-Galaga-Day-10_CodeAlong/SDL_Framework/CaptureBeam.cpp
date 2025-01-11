@@ -51,6 +51,7 @@ CaptureBeam::CaptureBeam() : AnimatedTexture("CaptureBeam.png", 0, 0, 184, 320, 
 {
 	mTotalCaptureTime = 6.0f;
 	ResetAnimation();
+	//AddCollider(new BoxCollider(mCaptureBeam->ScaledDimensions()));
 }
 
 CaptureBeam::~CaptureBeam() { }

@@ -63,7 +63,7 @@ void PlayScreen::StartNewGame() {
 	mLevelStartTimer = 0.0f;
 	mCurrentStage = 0;
 
-	//mAudio->PlayMusic("MUS/GameStart.wav", 0);
+	mAudio->PlayMusic("MUS/GameStart.wav", 0);
 }
 
 void PlayScreen::StartNextLevel() {
