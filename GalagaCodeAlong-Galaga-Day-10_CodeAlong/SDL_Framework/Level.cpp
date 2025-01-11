@@ -11,6 +11,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mBackgroundStars = BackgroundStars::Instance();
 
 	mStage = stage;
+	mCurrentStage = 1;
 	mStageStarted = false;
 
 	mLabelTimer = 0.0f;
@@ -61,11 +62,11 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mBossCount = 0;
 	mEnemiesKilled = 0;
 
-	std::string fullPath = SDL_GetBasePath();
+	/*std::string fullPath = SDL_GetBasePath();
 	fullPath.append("Data/Level1.xml");
 	mSpawningPatterns.LoadFile(fullPath.c_str());
-	//mElement = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
-
+	mElement = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();*/
+	HandleCurrentStage();
 	mChallengeStage = mSpawningPatterns.FirstChildElement("Level")->FirstChildElement()->BoolAttribute("value");
 
 	if (!mChallengeStage) {
@@ -228,17 +229,18 @@ void Level::HandleEnemySpawning() {
 	mSpawnTimer += mTimer->DeltaTime();
 
 	if (mSpawnTimer >= mSpawnDelay) {
-		XMLElement* element = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
+		HandleCurrentStage();
+		//XMLElement* mElement = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
 		bool spawned = false;
 		bool priorityFound = false;
 
-		while (element != nullptr) {
-			int priority = element->IntAttribute("priority");
+		while (mElement != nullptr) {
+			int priority = mElement->IntAttribute("priority");
 
 			if (mCurrentFlyInPriority == priority) {
 				priorityFound = true;
-				int path = element->IntAttribute("path");
-				XMLElement* child = element->FirstChildElement();
+				int path = mElement->IntAttribute("path");
+				XMLElement* child = mElement->FirstChildElement();
 
 				//this for is always going to give us the next/last child based on our flyinIndex
 				for (int i = 0; i < mCurrentFlyInIdex && child != nullptr; i++) {
@@ -281,7 +283,7 @@ void Level::HandleEnemySpawning() {
 				}
 			}
 
-			element = element->NextSiblingElement();
+			mElement = mElement->NextSiblingElement();
 		}
 
 		if (!priorityFound) {
@@ -367,6 +369,7 @@ void Level::HandleEnemyFormation() {
 
 	if (levelCleared)
 	{
+		mCurrentStage++;
 		mCurrentState = Finished;
 	}
 
@@ -560,6 +563,37 @@ void Level::HandleEnemyDiving() {
 	//		}
 	//	}
 	//}
+}
+
+void Level::HandleCurrentStage()
+{
+	std::string fullPath = SDL_GetBasePath();
+
+	switch (mCurrentStage)
+	{
+	case 1:
+		fullPath.append("Data/Level1.xml");
+		mSpawningPatterns.LoadFile(fullPath.c_str());
+		mElement = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
+		break;
+	case 2:
+		fullPath.append("Data/Level2.xml");
+		mSpawningPatterns.LoadFile(fullPath.c_str());
+		mElement = mSpawningPatterns.FirstChildElement("Level2")->FirstChild()->NextSiblingElement();
+		break;
+	case 3:
+		fullPath.append("Data/Level3.xml");
+		mSpawningPatterns.LoadFile(fullPath.c_str());
+		mElement = mSpawningPatterns.FirstChildElement("Level3")->FirstChild()->NextSiblingElement();
+		break;
+	case 4:
+		fullPath.append("Data/Level4.xml");
+		mSpawningPatterns.LoadFile(fullPath.c_str());
+		mElement = mSpawningPatterns.FirstChildElement("Level4")->FirstChild()->NextSiblingElement();
+		break;
+	default:
+		break;
+	}
 }
 
 void Level::Update() {

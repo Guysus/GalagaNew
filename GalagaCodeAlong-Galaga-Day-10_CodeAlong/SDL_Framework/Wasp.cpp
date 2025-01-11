@@ -7,7 +7,8 @@ void Wasp::CreateDivePaths() {
 	BezierPath* path = new BezierPath();
 
 	path->AddCurve({
-		Vector2(Vec2_Zero),
+		//Vector2(Vec2_Zero),
+		Vector2(0.0f, 0.0f),
 		Vector2(0.0f, -45.0f),
 		Vector2(-60.0f, -45.0f),
 		Vector2(-60.0f, 0.0f)

@@ -35,7 +35,7 @@
 		<Enemy type="Butterfly" index="14" />
 		<Enemy type="Butterfly" index="15" />
 	</Spawn>
-	<Spawn path="0" priority="2">
+	<Spawn path="4" priority="2">
 		<Enemy type="Wasp" index="4" />
 		<Enemy type="Wasp" index="5" />
 		<Enemy type="Wasp" index="6" />
@@ -45,7 +45,7 @@
 		<Enemy type="Wasp" index="10" />
 		<Enemy type="Wasp" index="11" />
 	</Spawn>
-	<Spawn path="0" priority="2">
+	<Spawn path="5" priority="2">
 		<Enemy type="Wasp" index="12" />
 		<Enemy type="Wasp" index="13" />
 		<Enemy type="Wasp" index="14" />

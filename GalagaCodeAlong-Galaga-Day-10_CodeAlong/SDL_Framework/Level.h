@@ -46,7 +46,7 @@ private:
 	Boss* mFormationBoss[MAX_BOSSES];
 
 	XMLDocument mSpawningPatterns;
-	//XMLElement* mElement;
+	XMLElement* mElement;
 	int mCurrentFlyInPriority;
 	int mCurrentFlyInIdex;
 
@@ -55,6 +55,7 @@ private:
 	bool mSpawningFinished;
 
 	int mStage;
+	int mCurrentStage;
 	bool mChallengeStage;
 	bool mStageStarted;
 
@@ -111,4 +112,6 @@ private:
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
 	void HandleEnemyDiving();
+
+	void HandleCurrentStage();
 };
