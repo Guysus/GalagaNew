@@ -221,9 +221,9 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s</Command>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Data\Level1.xml" />
-    <Xml Include="Level2.xml" />
-    <Xml Include="Level3.xml" />
-    <Xml Include="Level4Challenge.xml" />
+    <Xml Include="Data\Level2.xml" />
+    <Xml Include="Data\Level3.xml" />
+    <Xml Include="Data\Level4Challenge.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

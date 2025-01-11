@@ -256,13 +256,13 @@
     <Xml Include="Data\Level1.xml">
       <Filter>Resource Files</Filter>
     </Xml>
-    <Xml Include="Level2.xml">
+    <Xml Include="Data\Level2.xml">
       <Filter>Resource Files</Filter>
     </Xml>
-    <Xml Include="Level3.xml">
+    <Xml Include="Data\Level3.xml">
       <Filter>Resource Files</Filter>
     </Xml>
-    <Xml Include="Level4Challenge.xml">
+    <Xml Include="Data\Level4Challenge.xml">
       <Filter>Resource Files</Filter>
     </Xml>
   </ItemGroup>

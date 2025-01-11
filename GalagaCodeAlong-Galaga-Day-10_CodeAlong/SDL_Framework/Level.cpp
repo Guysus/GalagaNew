@@ -11,7 +11,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mBackgroundStars = BackgroundStars::Instance();
 
 	mStage = stage;
-	mCurrentStage = 1;
+	mCurrentStage = stage;
 	mStageStarted = false;
 
 	mLabelTimer = 0.0f;
@@ -67,7 +67,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mSpawningPatterns.LoadFile(fullPath.c_str());
 	mElement = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();*/
 	HandleCurrentStage();
-	mChallengeStage = mSpawningPatterns.FirstChildElement("Level")->FirstChildElement()->BoolAttribute("value");
+	//mChallengeStage = mSpawningPatterns.FirstChildElement("Level")->FirstChildElement()->BoolAttribute("value");
 
 	if (!mChallengeStage) {
 		mFormation = new Formation();
@@ -369,7 +369,6 @@ void Level::HandleEnemyFormation() {
 
 	if (levelCleared)
 	{
-		mCurrentStage++;
 		mCurrentState = Finished;
 	}
 
@@ -575,21 +574,25 @@ void Level::HandleCurrentStage()
 		fullPath.append("Data/Level1.xml");
 		mSpawningPatterns.LoadFile(fullPath.c_str());
 		mElement = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
+		mChallengeStage = mSpawningPatterns.FirstChildElement("Level")->FirstChildElement()->BoolAttribute("value");
 		break;
 	case 2:
 		fullPath.append("Data/Level2.xml");
 		mSpawningPatterns.LoadFile(fullPath.c_str());
 		mElement = mSpawningPatterns.FirstChildElement("Level2")->FirstChild()->NextSiblingElement();
+		mChallengeStage = mSpawningPatterns.FirstChildElement("Level2")->FirstChildElement()->BoolAttribute("value");
 		break;
 	case 3:
 		fullPath.append("Data/Level3.xml");
 		mSpawningPatterns.LoadFile(fullPath.c_str());
 		mElement = mSpawningPatterns.FirstChildElement("Level3")->FirstChild()->NextSiblingElement();
+		mChallengeStage = mSpawningPatterns.FirstChildElement("Level3")->FirstChildElement()->BoolAttribute("value");
 		break;
 	case 4:
 		fullPath.append("Data/Level4.xml");
 		mSpawningPatterns.LoadFile(fullPath.c_str());
 		mElement = mSpawningPatterns.FirstChildElement("Level4")->FirstChild()->NextSiblingElement();
+		mChallengeStage = mSpawningPatterns.FirstChildElement("Level4")->FirstChildElement()->BoolAttribute("value");
 		break;
 	default:
 		break;
